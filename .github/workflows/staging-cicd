@@ -47,11 +47,11 @@ jobs:
     - name: Deploy to Heroku
       run: dpl --provider=heroku --app=$HEROKU_APP_NAME_STAGING --api-key=$HEROKU_API_KEY
     - name: Run migrations on Heroku
-      run: heroku run --app $HEROKU_APP_NAME migrate
+      run: heroku run --app $HEROKU_APP_NAME_STAGING migrate
     - uses: chrnorm/deployment-action@releases/v1
       name: Create GitHub deployment
       with:
         initial_status: success
         token: ${{ github.token }}
-        target_url: https://${{ secrets.HEROKU_APP_NAME }}.herokuapp.com
-        environment: production
+        target_url: https://${{ secrets.HEROKU_APP_NAME_STAGING }}.herokuapp.com
+        environment: staging
