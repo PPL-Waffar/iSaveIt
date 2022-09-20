@@ -32,8 +32,8 @@ jobs:
   Deployment:
     runs-on: ubuntu-latest
     env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY_STAGING }}
+      HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME_STAGING }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby 2.7
@@ -45,7 +45,7 @@ jobs:
     - name: Install Heroku CLI
       run: wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - name: Deploy to Heroku
-      run: dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+      run: dpl --provider=heroku --app=$HEROKU_APP_NAME_STAGING --api-key=$HEROKU_API_KEY_STAGING
     - name: Run migrations on Heroku
       run: heroku run --app $HEROKU_APP_NAME migrate
     - uses: chrnorm/deployment-action@releases/v1
