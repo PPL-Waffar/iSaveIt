@@ -1,9 +1,8 @@
-from pyexpat import model
 from django.db import models
 
 class Pocket(models.Model):
     name = models.CharField(max_length=50)
-    budget = model.BigIntegerField()
+    budget = models.BigIntegerField()
     
 
     def __str__(self):
