@@ -16,8 +16,12 @@ Including another URLconf
 from unicodedata import category
 from django.contrib import admin
 from django.urls import path
+from django.contrib import admin
+from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('pocket', category)
+    path('pocket/', include('pocket.urls')),
+    path('payment/', include('payment.urls')),
+    
 ]
