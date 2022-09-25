@@ -7,7 +7,9 @@ from .models import *
 import json
 from django.http.response import HttpResponse, HttpResponseForbidden, JsonResponse
 # Create your views here.
+from django.views.decorators.http import require_http_methods
 @csrf_exempt
+@require_http_methods(["POST"])
 def flutter_add_payment(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode("utf-8"))
