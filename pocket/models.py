@@ -1,9 +1,9 @@
 from django.db import models
 
 class Pocket(models.Model):
-    name = models.CharField(max_length=50)
-    budget = models.BigIntegerField()
+    pocket_name = models.CharField(max_length=50)
+    pocket_budget = models.BigIntegerField()
     
 
     def __str__(self):
-        return self.name
+        return self.pocket_name

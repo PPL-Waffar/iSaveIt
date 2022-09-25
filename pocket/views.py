@@ -1,23 +1,14 @@
-from urllib import response
-from django.shortcuts import render
-
-from pocket.forms import PocketForm
+import json
 from .models import Pocket
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
 @csrf_exempt
-def index(request): 
-    
+def add_pocket(request):
     if request.method == "POST":
-        
-        form = PocketForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("")
-    
-    pocket = Pocket.objects.all()
-    response = {'pocket': pocket}
-
-
-    return render(request, 'pocket.html', {'pocket': pocket})
+        data = json.loads(request.body.decode('utf-8'))
+        pocket_name = data['pocket_name']
+        pocket_budget = data['pocket_budget']
+        new_pocket = Pocket(pocket_name=pocket_name, pocket_budget=pocket_budget)
+        new_pocket.save()
+        return JsonResponse({'isSuccessful': True}, safe = False)
