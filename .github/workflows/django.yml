@@ -1,9 +1,9 @@
 name: Django CI
 on:
   push:
-    branches: [ PBI-1-payment ]
+    branches: [ staging ]
   pull_request:
-    branches: [ PBI-1-payment ]
+    branches: [ staging ]
 jobs:
   build:
     runs-on: ubuntu-latest
