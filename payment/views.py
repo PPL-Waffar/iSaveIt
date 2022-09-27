@@ -29,3 +29,17 @@ def flutter_get_payment(request):
         all_payment = Payment.objects.all()
         all_payment = list(all_payment.values())
     return JsonResponse({'isSuccessful':True, 'all_payment':all_payment},safe = False)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def flutter_update_payment(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode("utf-8"))
+        pay_name = data.get('input_payname')
+        pay_amount = data.get('input_payamount')
+        pay_date = data.get('input_paydate')
+        pay_categories = data.get('input_paycategories')
+        payment_choice = data.get('input_paymentchoice')
+        new_payment = Payment(pay_name = pay_name, pay_date = pay_date, pay_amount= pay_amount, pay_categories=pay_categories, payment_choice =payment_choice)
+        new_payment.save()
+    return JsonResponse({'isSuccessful':True},safe = False)
