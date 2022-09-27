@@ -22,3 +22,10 @@ def flutter_add_payment(request):
         new_payment.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 
+@csrf_exempt
+@require_http_methods(["GET"])
+def flutter_get_payment(request):
+    if request.method == 'GET':
+        all_payment = Payment.objects.all()
+        all_payment = list(all_payment.values())
+    return JsonResponse({'isSuccessful':True, 'all_payment':all_payment},safe = False)
