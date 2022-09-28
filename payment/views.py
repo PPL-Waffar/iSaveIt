@@ -1,3 +1,4 @@
+from turtle import update
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -40,6 +41,10 @@ def flutter_update_payment(request):
         pay_date = data.get('input_paydate')
         pay_categories = data.get('input_paycategories')
         payment_choice = data.get('input_paymentchoice')
-        new_payment = Payment(pay_name = pay_name, pay_date = pay_date, pay_amount= pay_amount, pay_categories=pay_categories, payment_choice =payment_choice)
-        new_payment.save()
+        update_payment = Payment.objects.get(pay_name = pay_name)
+        update_payment.pay_amount = pay_amount
+        update_payment.pay_date = pay_date
+        update_payment.pay_categories = pay_categories
+        update_payment.payment_choice = payment_choice
+        update_payment.save()
     return JsonResponse({'isSuccessful':True},safe = False)
