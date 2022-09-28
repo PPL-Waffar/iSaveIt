@@ -48,8 +48,8 @@ class UpdatePayment(TestCase):
                 python_dict = {
                 
                         "input_payname": "test payment",
-                        "input_payamount": 10000,
-                        "input_paydate": '2022-10-25',
+                        "input_payamount": 9000,
+                        "input_paydate": '2022-11-20',
                         "input_paymentchoice": 'cash'
                 }
                 response = self.client.post('/payment/flu-update-payment/',
