@@ -24,10 +24,11 @@ class MyAccountManager(BaseUserManager):
         return user
 class Account(AbstractBaseUser):
     email = models.CharField(max_length=20,primary_key=True, blank=True)
+    name = models.CharField(max_length = 40, blank = True)
     is_staff = models.BooleanField(default=False)
     role_users = models.BooleanField(default=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [email]
+    REQUIRED_FIELDS = [email,name]
     
     objects = MyAccountManager()
 

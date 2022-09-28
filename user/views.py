@@ -13,11 +13,11 @@ def flutter_register_user(request):
     if request.method == "POST":
         raw = request.body.decode('utf-8')
         cleaned = json.loads(raw)
-        register_user = Account(role_users=True, email=cleaned["email"])
+        register_user = Account(role_users=True, email=cleaned["email"], name = cleaned["name"])
         register_user.set_password(cleaned["password"])
         try:
             register_user.save()
         except:
             return HttpResponse(status=409)
         login(request, register_user)
-        return JsonResponse({"session-id": request.session.session_key,"is_staff": False, "role_users": True, "email": register_user.email})
+        return JsonResponse({"session-id": request.session.session_key,"is_staff": False, "role_users": True, "email": register_user.email, "name": register_user.name})
