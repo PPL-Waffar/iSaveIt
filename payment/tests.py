@@ -34,7 +34,6 @@ class GetPayment(TestCase):
             'password': 'test',
         }),content_type='application/json')
     
-    #create a test to get payment
     def test_getpayment(self):
         self.setup_account()
         session = self.client.session
@@ -60,7 +59,5 @@ class GetPayment(TestCase):
         response = self.client.get('/payment/flu-get-payment/',{
             'session_id': session.session_key,
         })
-
-        print(response.content)
 
         self.assertEqual(response.status_code,200)
