@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from importlib import import_module
 from django.conf import settings
-from .models import *
+from .models import Payment
 from user.models import *
 import json
 from django.http.response import HttpResponse, HttpResponseForbidden, JsonResponse

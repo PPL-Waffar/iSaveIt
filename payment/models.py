@@ -1,5 +1,5 @@
 from django.db import models
-from pocket.models import *
+from pocket.models import Pocket
 from user.models import *
 PAYMENT_CHOICE = [
     ('debit card', 'debit card'),

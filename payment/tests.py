@@ -1,6 +1,6 @@
 import json
 from django.test import TestCase
-from .models import *
+from .models import Payment
 from django.test import Client
 
 # Create your tests here.
