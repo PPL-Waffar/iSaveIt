@@ -23,7 +23,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python manage.py tes
+        python manage.py test
   run:
     runs-on: ubuntu-latest
     steps:
