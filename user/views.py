@@ -30,9 +30,6 @@ def flutter_user_login(request):
         cleaned_data = json.loads(data)
         email = cleaned_data["email"]
         password = cleaned_data["password"]
-
-        tes = Account.objects.get(email=email).name
-        print(tes)
         user = authenticate(request, email=email, password=password)
         if user:
             login(request, user)
