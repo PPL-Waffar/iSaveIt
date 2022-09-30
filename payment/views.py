@@ -29,13 +29,28 @@ def flutter_add_payment(request):
         new_payment.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 
-@csrf_exempt
 @require_http_methods(["GET"])
+@csrf_exempt
 def flutter_get_payment(request):
     if request.method == 'GET':
-        all_payment = Payment.objects.all()
-        all_payment = list(all_payment.values())
-    return JsonResponse({'isSuccessful':True, 'all_payment':all_payment},safe = False)
+        session_id = request.GET.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        owninguser = Account.objects.get(email = email)
+        payments = Payment.objects.filter(user_payment = owninguser)
+        payment_list = []
+        for payment in payments:
+            payment_list.append({
+                'pay_name': payment.pay_name,
+                'pay_amount': payment.pay_amount,
+                'pay_date': payment.pay_date,
+                'pay_categories': payment.pay_categories,
+                'payment_choice': payment.payment_choice,
+            })
+        return JsonResponse(payment_list,safe = False)
+    return HttpResponseForbidden()
 
 
 
