@@ -23,27 +23,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python manage.py test
-  run:
-    runs-on: ubuntu-latest
-    env:
-      OS: ubuntu-latest
-      PYTHON: '3.9'
-    steps:
-    - uses: checkout@v2
-      with:
-        fetch-depth: ‘2’
-
-    - name: Setup Python
-      uses: actions/setup-python@master
-      with:
-        python-version: 3.7
-    - name: Generate Report
-      run: |
-        pip install coverage
-        coverage run manage.py test -v 2 && coverage report
-    - name: Upload Coverage to Codecov
-      uses: codecov/codecov-action@v2
+        python manage.py tes
 
   sonarcloud:
     name: SonarCloud
