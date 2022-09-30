@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 import uuid
+import datetime
 
 class MyAccountManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -25,10 +26,11 @@ class MyAccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
     email = models.CharField(max_length=20,primary_key=True, blank=True)
     name = models.CharField(max_length = 40, blank = True)
+    date = models.DateField(("Date"), default=datetime.date.today)
     is_staff = models.BooleanField(default=False)
     role_users = models.BooleanField(default=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [email,name]
+    REQUIRED_FIELDS = []
     
     objects = MyAccountManager()
 

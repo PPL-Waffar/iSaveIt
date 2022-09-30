@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-62s-ii-2vd@teampm58q7enk@rv^2z-79eht_6%5i6da(qn0=5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["http://localhost:53771",
+    'https://localhost:53371',
+]
 
 
 # Application definition
@@ -40,11 +42,18 @@ INSTALLED_APPS = [
     'pocket',
     'payment',
     'corsheaders',
+    'user'
 
 ]
-
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
+AUTH_USER_MODEL = 'user.Account'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 MIDDLEWARE = [
+    
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,6 +67,16 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'iSaveit.urls'
+
+ALLOWED_HOSTS = ['*']
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:9000",
+    "http://localhost:58701"
+]
+CORS_ALLOW_HEADERS = "*"
 CORS_ALLOW_ALL_ORIGINS = True
 
 
@@ -66,6 +85,7 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 TEMPLATES = [
     {
+
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
