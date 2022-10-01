@@ -50,7 +50,3 @@ def flutter_get_payment(request):
                 'payment_choice': payment.payment_choice,
             })
         return JsonResponse(payment_list,safe = False)
-    return HttpResponseForbidden()
-
-
-
