@@ -16,9 +16,19 @@ Including another URLconf
 
 
 from django.contrib import admin
+<<<<<<< HEAD
+=======
+from django.urls import path
+from django.contrib import admin
+>>>>>>> 30a36af1e6c0370618ba66dedc282973317bb6a2
 from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pocket/', include('pocket.urls')),
+<<<<<<< HEAD
+=======
+    path('payment/', include('payment.urls')),
+    path('user/',include('user.urls')),
+>>>>>>> 30a36af1e6c0370618ba66dedc282973317bb6a2
 ]

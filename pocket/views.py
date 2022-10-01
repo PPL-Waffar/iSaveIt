@@ -3,6 +3,9 @@ from .models import Pocket
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
+from importlib import import_module
+from django.conf import settings
+from user.models import Account
 
 @require_http_methods(["POST"])
 @csrf_exempt
@@ -21,9 +24,13 @@ def add_pocket(request):
 def delete_pocket(request):
     if request.method == "POST":
         data = json.loads(request.body.decode('utf-8'))
-        # data from flutter has to contain primary key eg.1,2,3, etc.
-        primary_key = data['primary_key']
-        pocket = Pocket.objects.get(pk=int(primary_key))
+        session_id = data.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        owninguser = Account.objects.get(email = email)
+        pocket = Pocket.objects.get(user_pocket = owninguser)
         pocket.delete()
     return JsonResponse({'isSuccessful':True},safe = False)
 
@@ -33,13 +40,17 @@ def delete_pocket(request):
 def edit_pocket(request):
     if request.method == "POST":
         data = json.loads(request.body.decode('utf-8'))
-        # data from flutter has to contain primary key eg.1,2,3, etc.
-        primary_key = data['primary_key']
-        pocket = Pocket.objects.get(pk=int(primary_key))
-        pocket_name = data['pocket_name']
-        pocket_budget = data['pocket_budget']
-        pocket.pocket_name = pocket_name
-        pocket.pocket_budget = pocket_budget
+        session_id = data.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        owninguser = Account.objects.get(email = email)
+        name = data.get('name')
+        budget = data.get('budget')
+        pocket = Pocket.objects.get(user_pocket = owninguser)
+        pocket.name = name
+        pocket.budget = budget
         pocket.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 
