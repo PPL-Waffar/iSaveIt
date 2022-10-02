@@ -4,43 +4,81 @@ from django.test import TestCase
 from .models import Pocket
 
 class AddPocketTest(TestCase):
-    def test_add_pocket(self):
-        data = {'pocket_name': 'test_pocket', 'pocket_budget': 100}
-        response = self.client.post('/pocket/', json.dumps(data), content_type='application/json')
+    def setup_account(self):
+        self.client.post('/user/flu-register-user/',json.dumps({
+            'email' : 'test@test.com',
+            'name' : 'testwithdjango',
+            'password': 'test',
+        }),content_type='application/json')
+
+    def test_addpocket(self):
+        self.setup_account()
+        session = self.client.session
+        session['_auth_user_id'] = 'test@test.com'
+        session.save()
+
+        response = self.client.post('/pocket/add-pocket/',json.dumps({
+            'session_id' : session.session_key,
+            'input_pocketname' : 'testpocket',
+            'input_pocketbudget' : 1000,
+        }),content_type='application/json')
+
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {'isSuccessful': True})
 
 class DeletePocketTest(TestCase):
-    def create_pocket(self):
-        pocket = Pocket.objects.create(pocket_name='transportation', pocket_budget=300000)
-        return pocket
-    
+    def setup_account(self):
+        self.client.post('/user/flu-register-user/',json.dumps({
+            'email' : 'test@test.com',
+            'name' : 'testwithdjango',
+            'password': 'test',
+        }),content_type='application/json')
+
     def test_delete_pocket(self):
-        pocket = self.create_pocket()
-        pk = pocket.pk
-        self.assertTrue(Pocket.objects.filter(pk=pk).exists())
-        data = {'primary_key': pk}
-        response = self.client.post('/pocket/delete/', json.dumps(data), content_type='application/json')
-        self.assertFalse(Pocket.objects.filter(pk=pk).exists())
+        self.setup_account()
+        session = self.client.session
+        session['_auth_user_id'] = 'test@test.com'
+        session.save()
+
+        response = self.client.post('/pocket/add-pocket/',json.dumps({
+            'session_id': session.session_key,
+            'input_pocketname' : 'testpocket',
+            'input_pocketbudget' : 1000,
+        }),content_type='application/json')
+
+        response = self.client.delete('/pocket/add-pocket/',json.dumps({
+            'session_id': session.session_key,
+        }),content_type='application/json')
+        
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {'isSuccessful': True})
+        
 
 class EditPocketTest(TestCase):
-    def create_pocket(self):
-        pocket = Pocket.objects.create(pocket_name='transportation', pocket_budget=300000)
-        return pocket
-    
+    def setup_account(self):
+        self.client.post('/user/flu-register-user/',json.dumps({
+            'email' : 'test@test.com',
+            'name' : 'testwithdjango',
+            'password': 'test',
+        }),content_type='application/json')
+
     def test_edit_pocket(self):
-        pocket = self.create_pocket()
-        pk = pocket.pk
-        self.assertTrue(Pocket.objects.filter(pk=pk).exists())
-        data = {'primary_key': pk, 'pocket_name': 'food', 'pocket_budget': 900000}
-        response = self.client.post('/pocket/edit/', json.dumps(data), content_type='application/json')
-        pocket = Pocket.objects.get(pk=pk)
-        self.assertEqual(pocket.pocket_name, 'food')
-        self.assertEqual(pocket.pocket_budget, 900000)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {'isSuccessful': True})
+        self.setup_account()
+        session = self.client.session
+        session['_auth_user_id'] = 'test@test.com'
+        session.save()
+
+        response = self.client.post('/pocket/add-pocket/',json.dumps({
+            'session_id': session.session_key,
+            'input_pocketname' : 'testpocket',
+            'input_pocketbudget' : 1000,
+        }),content_type='application/json')
+
+        response = self.client.post('/pocket/add-pocket/',json.dumps({
+            'session_id': session.session_key,
+            'input_pocketname' : 'testpocket',
+            'input_pocketbudget' : 3000,
+        }),content_type='application/json')
+
+        self.assertEqual(response.status_code,200)
 
 
         
