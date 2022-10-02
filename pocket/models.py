@@ -1,4 +1,5 @@
 from django.db import models
+from user.models import Account
 
 class Pocket(models.Model):
     name = models.CharField(max_length=50)
