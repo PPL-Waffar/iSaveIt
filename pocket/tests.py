@@ -1,7 +1,5 @@
 import json
-from urllib import response
 from django.test import TestCase
-from .models import Pocket
 
 class AddPocketTest(TestCase):
     def setup_account(self):
