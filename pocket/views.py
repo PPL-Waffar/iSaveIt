@@ -24,3 +24,21 @@ def add_pocket(request):
         new_pocket = Pocket(user_pocket = owninguser ,pocket_name = pocket_name, pocket_budget = pocket_budget)
         new_pocket.save()
     return JsonResponse({'isSuccessful':True},safe = False)
+
+@require_http_methods(["GET"])
+def get_pocket(request):
+    if request.method == "GET":
+        session_id = request.GET.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        owninguser = Account.objects.get(email = email)
+        pockets = Pocket.objects.filter(user_pocket = owninguser)
+        pocket_list = []
+        for pocket in pockets:
+            pocket_list.append({
+                'pocket_name' : pocket.pocket_name,
+                'pocket_budget' : pocket.pocket_budget
+            })
+        return JsonResponse(pocket_list,safe = False)
