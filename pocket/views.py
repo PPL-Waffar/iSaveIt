@@ -26,10 +26,10 @@ def add_pocket(request):
     return JsonResponse({'isSuccessful':True},safe = False)
 
 
-@require_http_methods(["POST"])
+@require_http_methods(["DELETE"])
 @csrf_exempt
 def delete_pocket(request):
-    if request.method == "POST":
+    if request.method == "DELETE":
         data = json.loads(request.body.decode('utf-8'))
         session_id = data.get('session_id')
         engine = import_module(settings.SESSION_ENGINE)
