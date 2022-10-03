@@ -1,11 +1,12 @@
+from importlib import import_module
 import json
+
+from user.models import Account
 from .models import Pocket
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-from importlib import import_module
 from django.conf import settings
-from user.models import Account
 
 @require_http_methods(["POST"])
 @csrf_exempt
@@ -52,11 +53,11 @@ def edit_pocket(request):
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
         owninguser = Account.objects.get(email = email)
-        name = data.get('name')
-        budget = data.get('budget')
+        pocket_name = data.get('input_pocketname')
+        pocket_budget = data.get('input_pocketbudget')
         pocket = Pocket.objects.get(user_pocket = owninguser)
-        pocket.name = name
-        pocket.budget = budget
+        pocket.pocket_name = pocket_name
+        pocket.pocket_budget = pocket_budget
         pocket.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 
