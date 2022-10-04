@@ -1,3 +1,4 @@
+from turtle import update
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -29,7 +30,64 @@ def flutter_add_payment(request):
         new_payment.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 
+@require_http_methods(["GET"])
+@csrf_exempt
+def flutter_get_payment(request):
+    if request.method == 'GET':
+        session_id = request.GET.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        owninguser = Account.objects.get(email = email)
+        payments = Payment.objects.filter(user_payment = owninguser)
+        payment_list = []
+        for payment in payments:
+            payment_list.append({
+                'pay_name': payment.pay_name,
+                'pay_amount': payment.pay_amount,
+                'pay_date': payment.pay_date,
+                'pay_categories': payment.pay_categories,
+                'payment_choice': payment.payment_choice,
+            })
+        return JsonResponse(payment_list,safe = False)
 
+@csrf_exempt
+@require_http_methods(["POST"])
+def flutter_update_payment(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode("utf-8"))
+        session_id = data.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        pay_name = data.get('input_payname')
+        new_pay_amount = data.get('input_payamount')
+        new_pay_date = data.get('input_paydate')
+        new_pay_categories = data.get('input_paycategories')
+        new_payment_choice = data.get('input_paymentchoice')
+        owninguser = Account.objects.get(email = email)
+        payment = Payment.objects.get(user_payment = owninguser, pay_name = pay_name)
+        payment.pay_amount = new_pay_amount
+        payment.pay_date = new_pay_date
+        payment.pay_categories = new_pay_categories
+        payment.payment_choice = new_payment_choice
+        payment.save()
+        return JsonResponse({'isSuccessful':True},safe = False)
 
-
-
+@csrf_exempt
+@require_http_methods(["DELETE"])
+def flutter_delete_payment(request):
+    if request.method == 'DELETE':
+        data = json.loads(request.body.decode("utf-8"))
+        session_id = data.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        pay_name = data.get('input_payname')
+        owninguser = Account.objects.get(email = email)
+        payment = Payment.objects.get(user_payment = owninguser, pay_name = pay_name)
+        payment.delete()
+        return JsonResponse({'isSuccessful':True},safe = False)
