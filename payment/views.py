@@ -50,6 +50,11 @@ def flutter_get_payment(request):
                 'payment_choice': payment.payment_choice,
             })
         return JsonResponse(payment_list,safe = False)
+<<<<<<< HEAD
+=======
+    return HttpResponseForbidden()
+
+>>>>>>> b236df0 ([RED] Added user connection to view payment)
 
 @csrf_exempt
 @require_http_methods(["POST"])
