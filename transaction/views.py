@@ -27,7 +27,7 @@ def input_transaction(request):
         transaction_pocket = data.get('input_transaction_pocket')
         owninguser = Account.objects.get(email = email)
         owning_pocket = Pocket.objects.get(pocket_name = transaction_pocket, user_pocket = owninguser)
-        if transaction_payment_type == 'expense':
+        if transaction_payment_type == 'Expense':
             owning_pocket.pocket_balance =- transaction_amount
         else:
             owning_pocket.pocket_balance =+ transaction_amount
