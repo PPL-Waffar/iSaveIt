@@ -24,13 +24,13 @@ def view_expense(request):
         expense_list = []
         for expense in expenses:
             expense_list.append({
-                "expense_name" : expense.expense_name,
-                "expense_amount" : expense.expense_amount,
-                "expense_date" : expense.expense_date,
-                "expense_type" : expense.expense_type,
-                "expense_person" : expense.expense_person,
-                "expense_payment_choice" : expense.expense_payment_choice,
-                "expense_pocket" : expense.expense_pocket,
+                'expense_name' : expense.expense_name,
+                'expense_amount' : expense.expense_amount,
+                'expense_date' : expense.expense_date,
+                'expense_category' : expense.expense_type,
+                'expense_person' : expense.expense_person,
+                'expense_payment_choice' : expense.expense_payment_choice,
+                'expense_pocket' : expense.expense_pocket
             })
         return JsonResponse(expense_list,safe = False)
 
