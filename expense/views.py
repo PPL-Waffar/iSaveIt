@@ -36,7 +36,6 @@ def view_expense(request):
 
 @require_http_methods(["POST"])
 @csrf_exempt
-#Create add expense
 def add_expense(request):
     if request.method == 'POST':
         session_id = request.POST.get('session_id')

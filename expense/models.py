@@ -1,11 +1,17 @@
 from django.db import models
-from payment.models import Payment
+from payment.models import PAYMENT_CHOICE
 from pocket.models import Pocket
 from user.models import Account
 
 EXPENSE_TYPE = [
     ('Lend Money', 'Lend Money'),
     ('Debt', 'Debt'),
+]
+
+PAYMENT_CHOICE = [
+    ('debit card', 'debit card'),
+    ('cash', 'cash'),
+    ('e-wallet', 'e-wallet'),
 ]
 
 class Expense(models.Model):
@@ -15,5 +21,5 @@ class Expense(models.Model):
     expense_date = models.DateField()
     expense_type = models.CharField(max_length=200, choices=EXPENSE_TYPE, default='Lend Money',null=True)
     expense_person = models.CharField(max_length = 50)
-    expense_payment_choice = models.ForeignKey(Payment, on_delete=models.SET_DEFAULT, default='NULL',null=True)
+    expense_payment_choice = models.CharField(max_length=200, choices=PAYMENT_CHOICE, default='cash',null=True)
     expense_pocket = models.ForeignKey(Pocket, on_delete=models.SET_DEFAULT, default='NULL',null=True)
