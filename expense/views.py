@@ -20,6 +20,7 @@ def view_expense(request):
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
         owninguser = Account.objects.get(email = email)
+        pocket_expense = Pocket.objects.get(user_pocket = owninguser)
         expenses = Expense.objects.filter(user_expense = owninguser)
         expense_list = []
         for expense in expenses:
@@ -30,7 +31,7 @@ def view_expense(request):
                 'expense_category' : expense.expense_type,
                 'expense_person' : expense.expense_person,
                 'expense_payment_choice' : expense.expense_payment_choice,
-                'expense_pocket' : expense.expense_pocket
+                'expense_pocket' : pocket_expense.pocket_name,
             })
         return JsonResponse(expense_list,safe = False)
 
