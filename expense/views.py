@@ -1,13 +1,11 @@
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from importlib import import_module
 from django.conf import settings
 from expense.models import Expense
 from pocket.models import Pocket
-from payment.models import Payment
 from user.models import *
 import json
-from django.http.response import  JsonResponse
+from django.http.response import JsonResponse
 from django.views.decorators.http import require_http_methods
 
 @require_http_methods(["GET"])
