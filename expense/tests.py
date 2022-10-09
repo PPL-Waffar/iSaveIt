@@ -1,13 +1,15 @@
 import json
 from django.test import TestCase
 
+content_type = 'application/json'
+
 class GetExpense(TestCase):
     def setup_account(self):
         self.client.post('/user/flu-register-user/',json.dumps({
             'email' : 'test@test.com',
             'name' : 'testwithdjango',
             'password': 'test',
-        }),content_type='application/json')
+        }),content_type=content_type)
 
     def test_getexpense(self):
         self.setup_account()
@@ -15,13 +17,13 @@ class GetExpense(TestCase):
         session['_auth_user_id'] = 'test@test.com'
         session.save()
 
-        response = self.client.post('/pocket/add-pocket/',json.dumps({
+        self.client.post('/pocket/add-pocket/',json.dumps({
             'session_id' : session.session_key,
             'input_pocketname' : 'testpocket',
             'input_pocketbudget' : 1000,
-        }),content_type='application/json')
+        }),content_type=content_type)
 
-        response = self.client.post('/expense/add-expense/',json.dumps({
+        self.client.post('/expense/add-expense/',json.dumps({
             'session_id' : session.session_key,
             'expense_name' : 'test',
             'expense_amount' : 100,
@@ -30,9 +32,9 @@ class GetExpense(TestCase):
             'expense_person' : 'raka',
             'expense_payment_choice' : 'Cash',
             'expense_pocket' : 'testpocket',
-        }),content_type='application/json')
+        }),content_type=content_type)
 
-        response = self.client.post('/expense/add-expense/',json.dumps({
+        self.client.post('/expense/add-expense/',json.dumps({
             'session_id' : session.session_key,
             'expense_name' : 'test2',
             'expense_amount' : 1002,
@@ -41,7 +43,7 @@ class GetExpense(TestCase):
             'expense_person' : 'raka2',
             'expense_payment_choice' : 'Cash',
             'expense_pocket' : 'testpocket',
-        }),content_type='application/json')
+        }),content_type=content_type)
 
         response = self.client.get('/expense/view-expense/',{
             'session_id': session.session_key,
