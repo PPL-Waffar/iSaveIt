@@ -3,7 +3,7 @@ from importlib import import_module
 from django.conf import settings
 from expense.models import Expense
 from pocket.models import Pocket
-from user.models import *
+from user.models import Account
 import json
 from django.http.response import JsonResponse
 from django.views.decorators.http import require_http_methods

@@ -54,12 +54,12 @@ class GetExpense(TestCase):
         session = self.client.session
         session['_auth_user_id'] = 'test@test.com'
         session.save()
-
+        content_type = 'application/json'
         response = self.client.post('/pocket/add-pocket/',json.dumps({
             'session_id' : session.session_key,
             'input_pocketname' : 'testpocket',
             'input_pocketbudget' : 1000,
-        }),content_type='application/json')
+        }),content_type=content_type)
 
         response = self.client.post('/expense/add-expense/',json.dumps({
             'session_id' : session.session_key,
@@ -70,5 +70,5 @@ class GetExpense(TestCase):
             'expense_person' : 'landi',
             'expense_payment_choice' : 'Cash',
             'expense_pocket' : 'testpocket',
-        }),content_type='application/json')
+        }),content_type=content_type)
         self.assertEqual(response.status_code,200)
