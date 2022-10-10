@@ -26,7 +26,7 @@ class TransactionTest(TestCase):
         response = self.client.post('/transaction/input-transaction/',json.dumps({
             'session_id' : session.session_key,
             'input_transaction_payment_name' : 'warteg',
-            'input_transaction_amount' : 200,
+            'input_transaction_amount' : 250,
             'input_transaction_date' : '2023-05-11',
             'input_transaction_transaction_type' : 'Expense',
             'input_transaction_payment_type' : 'cash',
