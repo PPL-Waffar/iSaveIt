@@ -19,7 +19,7 @@ def input_transaction(request):
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
-        
+
         transaction_payment_name = data.get('input_transaction_payment_name')
         transaction_amount = data.get('input_transaction_amount')
         transaction_date = data.get('input_transaction_date')
@@ -30,9 +30,9 @@ def input_transaction(request):
         owning_pocket = Pocket.objects.get(pocket_name = transaction_pocket, user_pocket = owninguser)
 
         if transaction_payment_type == 'Expense':
-            owning_pocket.pocket_balance =- transaction_amount
+            owning_pocket.pocket_balance -= transaction_amount
         else:
-            owning_pocket.pocket_balance =+ transaction_amount
+            owning_pocket.pocket_balance += transaction_amount
         
         new_transaction = Transaction(user_transaction = owninguser, transaction_payment_name = transaction_payment_name, 
                                         transaction_amount = transaction_amount, transaction_date = transaction_date, 
