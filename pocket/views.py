@@ -74,7 +74,7 @@ def edit_pocket(request):
         owninguser = Account.objects.get(email = email)
         new_pocket_name = data.get('input_newpocketname')
         new_pocket_budget = data.get('input_newpocketbudget')
-        pocket = Pocket.objects.filter(user_pocket = owninguser, pocket_name = pocket_name)
+        pocket = Pocket.objects.get(user_pocket = owninguser, pocket_name = pocket_name)
         pocket.pocket_name = new_pocket_name
         pocket.pocket_budget = new_pocket_budget
         pocket.save()
