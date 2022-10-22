@@ -25,11 +25,6 @@ SECRET_KEY = 'django-insecure-62s-ii-2vd@teampm58q7enk@rv^2z-79eht_6%5i6da(qn0=5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["http://localhost:53771",
-    'https://localhost:53371',
-]
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,7 +38,9 @@ INSTALLED_APPS = [
     'payment',
     'corsheaders',
     'user',
-    'transaction'
+    'transaction',
+    'expense',
+    'financialreport',
 
 ]
 AUTHENTICATION_BACKENDS = (
@@ -69,7 +66,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'iSaveit.urls'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['isaveit-staging.herokuapp.com','localhost']
 CORS_ALLOWED_ORIGINS = [
     "https://example.com",
     "https://sub.example.com",
@@ -155,3 +152,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if 'DATABASE_URL' in os.environ:
+    import dj_database_url
+    DATABASES = {'default': dj_database_url.config()}
