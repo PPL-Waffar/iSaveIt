@@ -55,3 +55,19 @@ def add_expense(request):
         expense = Expense(user_expense = owninguser, expense_name = expense_name, expense_amount = expense_amount, expense_date = expense_date, expense_type = expense_type, expense_person = expense_person, expense_payment_choice = expense_payment_choice, expense_pocket = pocket)
         expense.save()
     return JsonResponse({'isSuccessful':True},safe = False)
+
+@require_http_methods(["GET"])
+@csrf_exempt
+def total_expense(request):
+    if request.method == 'GET':
+        session_id = request.GET.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        owninguser = Account.objects.get(email = email)
+        expenses = Expense.objects.filter(user_expense = owninguser)
+        total_expense = 0
+        for expense in expenses:
+            total_expense += expense.expense_amount
+        return JsonResponse({'total_expense':total_expense},safe = False)
