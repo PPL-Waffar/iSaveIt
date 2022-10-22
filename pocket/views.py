@@ -53,8 +53,9 @@ def delete_pocket(request):
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
+        pocket_name = data.get('input_pocketname')
         owninguser = Account.objects.get(email = email)
-        pocket = Pocket.objects.get(user_pocket = owninguser)
+        pocket = Pocket.objects.get(user_pocket = owninguser, pocket_name = pocket_name)
         pocket.delete()
     return JsonResponse({'isSuccessful':True},safe = False)
 
@@ -69,11 +70,12 @@ def edit_pocket(request):
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
-        owninguser = Account.objects.get(email = email)
         pocket_name = data.get('input_pocketname')
-        pocket_budget = data.get('input_pocketbudget')
-        pocket = Pocket.objects.get(user_pocket = owninguser)
-        pocket.pocket_name = pocket_name
-        pocket.pocket_budget = pocket_budget
+        owninguser = Account.objects.get(email = email)
+        new_pocket_name = data.get('input_newpocketname')
+        new_pocket_budget = data.get('input_newpocketbudget')
+        pocket = Pocket.objects.get(user_pocket = owninguser, pocket_name = pocket_name)
+        pocket.pocket_name = new_pocket_name
+        pocket.pocket_budget = new_pocket_budget
         pocket.save()
     return JsonResponse({'isSuccessful':True},safe = False)
