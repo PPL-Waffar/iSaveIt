@@ -20,5 +20,5 @@ class Transaction(models.Model):
     transaction_amount = models.BigIntegerField(default=False)
     transaction_date = models.DateField()
     transaction_transaction_type = models.CharField(max_length=200, choices=TRANSACTION_TYPE, default='Expense',null=True)
-    transaction_payment_type = models.CharField(max_length=200, choices=TRANSACTION_TYPE, default='cash',null=True)
+    transaction_payment_type = models.CharField(max_length=200, choices=PAYMENT_CHOICE, default='cash',null=True)
     transaction_pocket = models.ForeignKey(Pocket, on_delete=models.SET_DEFAULT, default='NULL',null=True)

@@ -71,11 +71,9 @@ def edit_pocket(request):
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
         pocket_name = data.get('input_pocketname')
+        new_pocket_budget = data.get('input_pocketbudget')
         owninguser = Account.objects.get(email = email)
-        new_pocket_name = data.get('input_newpocketname')
-        new_pocket_budget = data.get('input_newpocketbudget')
         pocket = Pocket.objects.get(user_pocket = owninguser, pocket_name = pocket_name)
-        pocket.pocket_name = new_pocket_name
         pocket.pocket_budget = new_pocket_budget
         pocket.save()
     return JsonResponse({'isSuccessful':True},safe = False)
