@@ -23,5 +23,6 @@ urlpatterns = [
     path('pocket/', include('pocket.urls')),
     path('payment/', include('payment.urls')),
     path('user/',include('user.urls')),
+    path('expense/',include('expense.urls')),
     path('transaction/', include('transaction.urls'))
 ]

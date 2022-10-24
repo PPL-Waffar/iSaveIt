@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'payment',
     'corsheaders',
     'user',
+    'expense',
     'transaction'
 
 ]
