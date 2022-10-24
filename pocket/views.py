@@ -4,7 +4,7 @@ import json
 from user.models import Account
 from .models import Pocket
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 
@@ -25,23 +25,23 @@ def add_pocket(request):
         new_pocket.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 
-@require_http_methods(["GET"])
+@csrf_exempt
 def get_pocket(request):
-    if request.method == "GET":
-        session_id = request.GET.get('session_id')
-        engine = import_module(settings.SESSION_ENGINE)
-        sessionstore = engine.SessionStore
-        session = sessionstore(session_id)
-        email = session.get('_auth_user_id')
-        owninguser = Account.objects.get(email = email)
-        pockets = Pocket.objects.filter(user_pocket = owninguser)
-        pocket_list = []
-        for pocket in pockets:
-            pocket_list.append({
-                'pocket_name' : pocket.pocket_name,
-                'pocket_budget' : pocket.pocket_budget
-            })
-        return JsonResponse(pocket_list,safe = False)
+    session_id = request.GET.get('session_id')
+    engine = import_module(settings.SESSION_ENGINE)
+    sessionstore = engine.SessionStore
+    session = sessionstore(session_id)
+    email = session.get('_auth_user_id')
+    owninguser = Account.objects.get(email = email)
+    pockets = Pocket.objects.filter(user_pocket = owninguser)
+    pocket_list = []
+    for pocket in pockets:
+        pocket_list.append({
+            'pocket_name' : pocket.pocket_name,
+            'pocket_budget' : str(pocket.pocket_budget)
+        })
+    data = json.dumps(pocket_list)
+    return HttpResponse(data, content_type='application/json')
 
 @require_http_methods(["DELETE"])
 @csrf_exempt
