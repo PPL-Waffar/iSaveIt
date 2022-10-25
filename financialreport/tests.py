@@ -1,7 +1,10 @@
 import json
 from django.test import TestCase
 
+from pocket.views import add_pocket
+
 content_type = 'application/json'
+add_pocket_url = '/pocket/add-pocket/'
 
 class ViewFinancialReportTest(TestCase):
     def setup_account(self):
@@ -23,19 +26,19 @@ class ViewFinancialReportTest(TestCase):
         session['_auth_user_id'] = 'test@test.com'
         session.save()
 
-        self.client.post('/pocket/add-pocket/',json.dumps({
+        self.client.post(add_pocket_url,json.dumps({
             'session_id' : session.session_key,
             'input_pocketname' : 'testpocket',
             'input_pocketbudget' : 1000,
         }),content_type=content_type)
 
-        self.client.post('/pocket/add-pocket/',json.dumps({
+        self.client.post(add_pocket_url,json.dumps({
             'session_id' : session.session_key,
             'input_pocketname' : 'testpocket2',
             'input_pocketbudget' : 2000,
         }),content_type=content_type)
 
-        self.client.post('/pocket/add-pocket/',json.dumps({
+        self.client.post(add_pocket_url,json.dumps({
             'session_id' : session.session_key,
             'input_pocketname' : 'testpocket3',
             'input_pocketbudget' : 3000,

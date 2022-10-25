@@ -1,17 +1,19 @@
+from atexit import register
 import json
 from django.test import TestCase
 
 content_type = 'application/json'
+register_url = '/user/flu-register-user/'
 
 class GetExpense(TestCase):
     def setup_account(self):
-        self.client.post('/user/flu-register-user/',json.dumps({
+        self.client.post(register_url,json.dumps({
             'email' : 'test@test.com',
             'name' : 'testwithdjango',
             'password': 'test',
         }),content_type=content_type)
 
-        self.client.post('/user/flu-register-user/',json.dumps({
+        self.client.post(register_url,json.dumps({
             'email' : 'test2@test.com',
             'name' : 'test2withdjango',
             'password': 'test2',
@@ -138,7 +140,7 @@ class GetExpense(TestCase):
     
 class TotalExpense(TestCase):
     def setup_account(self):
-        self.client.post('/user/flu-register-user/',json.dumps({
+        self.client.post(register_url,json.dumps({
             'email' : 'test@test.com',
             'name' : 'testwithdjango',
             'password': 'test',

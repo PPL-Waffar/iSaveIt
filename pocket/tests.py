@@ -97,13 +97,13 @@ class EditPocketTest(TestCase):
         session['_auth_user_id'] = 'test@test.com'
         session.save()
 
-        response = self.client.post('/pocket/add-pocket/',json.dumps({
+        self.client.post('/pocket/add-pocket/',json.dumps({
             'session_id': session.session_key,
             'input_pocketname' : 'testpocket',
             'input_pocketbudget' : 1000,
         }),content_type='application/json')
 
-        response = self.client.post('/pocket/edit-pocket/',json.dumps({
+        self.client.post('/pocket/edit-pocket/',json.dumps({
             'session_id': session.session_key,
             'input_pocketname' : 'testpocket',
             'input_pocketbudget' : 3000,
