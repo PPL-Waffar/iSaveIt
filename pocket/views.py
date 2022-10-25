@@ -77,3 +77,18 @@ def edit_pocket(request):
         pocket.pocket_budget = new_pocket_budget
         pocket.save()
     return JsonResponse({'isSuccessful':True},safe = False)
+
+@require_http_methods(["GET"])
+def total_pocket(request):
+    if request.method == "GET":
+        session_id = request.GET.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        owninguser = Account.objects.get(email = email)
+        pockets = Pocket.objects.filter(user_pocket = owninguser)
+        total_pocket_budget = 0
+        for pocket in pockets:
+            total_pocket_budget += pocket.pocket_budget
+        return JsonResponse({'total_pocket_budget':total_pocket_budget},safe = False)
