@@ -77,8 +77,9 @@ class DeletePocketTest(TestCase):
 
         response = self.client.delete('/pocket/delete-pocket/',json.dumps({
             'session_id': session.session_key,
+            'input_pocketname' : 'testpocket',
         }),content_type='application/json')
-        
+
         self.assertEqual(response.status_code, 200)
         
 
@@ -102,7 +103,7 @@ class EditPocketTest(TestCase):
             'input_pocketbudget' : 1000,
         }),content_type='application/json')
 
-        response = self.client.post('/pocket/update-pocket/',json.dumps({
+        response = self.client.post('/pocket/edit-pocket/',json.dumps({
             'session_id': session.session_key,
             'input_pocketname' : 'testpocket',
             'input_pocketbudget' : 3000,
