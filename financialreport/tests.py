@@ -73,4 +73,5 @@ class ViewFinancialReportTest(TestCase):
         self.assertEqual(json.loads(response.content)['expense_list'][0]['expense_amount'], 1000)
         self.assertEqual(json.loads(response.content)['expense_list'][1]['expense_name'], 'test2')
         self.assertEqual(json.loads(response.content)['expense_list'][1]['expense_amount'], 2000)
+        print(response.content)
         self.assertEqual(response.status_code,200)
