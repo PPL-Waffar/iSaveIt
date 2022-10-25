@@ -25,9 +25,6 @@ SECRET_KEY = 'django-insecure-62s-ii-2vd@teampm58q7enk@rv^2z-79eht_6%5i6da(qn0=5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,9 +34,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+    'pocket',
+    'payment',
+    'corsheaders',
+    'user',
+    'expense',
+    'transaction'
 
+]
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
+AUTH_USER_MODEL = 'user.Account'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 MIDDLEWARE = [
+    
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -48,9 +60,21 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'iSaveit.urls'
+
+ALLOWED_HOSTS = ['isaveit-staging.herokuapp.com','localhost']
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:9000",
+    "http://localhost:58701"
+]
+CORS_ALLOW_HEADERS = "*"
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -58,6 +82,7 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 TEMPLATES = [
     {
+
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
@@ -126,3 +151,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if 'DATABASE_URL' in os.environ:
+    import dj_database_url
+    DATABASES = {'default': dj_database_url.config()}

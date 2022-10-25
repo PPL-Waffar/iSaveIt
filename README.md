@@ -1,6 +1,5 @@
-# iSaveit - Flutter 
-[![CodeFactor](https://www.codefactor.io/repository/github/ppl-waffar/isaveit-flutter/badge)](https://www.codefactor.io/repository/github/ppl-waffar/isaveit-flutter)
-
+# iSaveit
+[![CodeFactor](https://www.codefactor.io/repository/github/ppl-waffar/isaveit/badge)](https://www.codefactor.io/repository/github/ppl-waffar/isaveit)
 **Product Owner:**
 1. Anastasia Audi Wulandari - 2006607495
 2. Anne Yuliana - 2006607513
