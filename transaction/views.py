@@ -44,22 +44,22 @@ def input_transaction(request):
 
 @csrf_exempt
 def get_transaction(request):
-    session_id = request.GET.get('session_id')
-    engine = import_module(settings.SESSION_ENGINE)
-    sessionstore = engine.SessionStore
-    session = sessionstore(session_id)
-    email = session.get('_auth_user_id')
-    owninguser = Account.objects.get(email = email)
-    alltransaction = Transaction.objects.filter(user_transaction = owninguser)
-    transaction_list = []
-    for transaction in alltransaction:
-        transaction_list.append({
-            'transaction_payment_name' : transaction.transaction_payment_name,
-            'transaction_amount' : transaction.transaction_amount,
-            'transaction_date' : transaction.transaction_date,
-            'transaction_transaction_type' : transaction.transaction_transaction_type,
-            'transaction_payment_type' : transaction.transaction_payment_type,
-            'transaction_pocket' : transaction.transaction_pocket.pocket_name
-        })
-    data = json.dumps(transaction_list)
-    return HttpResponse(data, content_type='application/json')
+        session_id = request.GET.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        owninguser = Account.objects.get(email = email)
+        alltransaction = Transaction.objects.filter(user_transaction = owninguser)
+        transaction_list = []
+        for transaction in alltransaction:
+            transaction_list.append({
+                'transaction_payment_name' : transaction.transaction_payment_name,
+                'transaction_amount' : transaction.transaction_amount,
+                'transaction_date' : str(transaction.transaction_date),
+                'transaction_transaction_type' : transaction.transaction_transaction_type,
+                'transaction_payment_type' : transaction.transaction_payment_type,
+                'transaction_pocket' : transaction.transaction_pocket.pocket_name
+            })
+        data = json.dumps(transaction_list)
+        return HttpResponse(data, content_type='application/json')
