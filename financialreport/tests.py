@@ -1,3 +1,4 @@
+from cgi import test
 import json
 from django.test import TestCase
 
@@ -77,3 +78,14 @@ class ViewFinancialReportTest(TestCase):
         self.assertEqual(json.loads(response.content)['expense_list'][1]['expense_name'], 'test2')
         self.assertEqual(json.loads(response.content)['expense_list'][1]['expense_amount'], 2000)
         self.assertEqual(response.status_code,200)
+
+        #negative tests
+        self.assertNotEqual(json.loads(response.content)['total_income'], 5000)
+        self.assertNotEqual(json.loads(response.content)['total_expense'], 2000)
+        self.assertNotEqual(json.loads(response.content)['expense_list'][0]['expense_name'], 'test2')
+        self.assertNotEqual(json.loads(response.content)['expense_list'][0]['expense_amount'], 2000)
+        self.assertNotEqual(json.loads(response.content)['expense_list'][1]['expense_name'], 'test')
+        self.assertNotEqual(json.loads(response.content)['expense_list'][1]['expense_amount'], 1000)
+        self.assertNotEqual(response.status_code,400)
+
+
