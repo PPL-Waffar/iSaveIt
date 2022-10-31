@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'user',
     'expense',
-    'transaction'
+    'transaction',
+    'financialreport',
 
 ]
 AUTHENTICATION_BACKENDS = (
