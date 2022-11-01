@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'user',
     'expense',
     'transaction',
-    'feedbackreport'
+    'financialreport',
+    'feedbackreport',
 
 ]
 AUTHENTICATION_BACKENDS = (
