@@ -12,5 +12,6 @@ FEATURE_CHOICE = [
 
 class Feedback(models.Model):
     user_feedback = models.ForeignKey(Account, on_delete=models.RESTRICT, default='')
+    feedback_title = models.CharField(primary_key=True, blank=True, max_length=250)
     feedback_feature = models.CharField(max_length=200, choices=FEATURE_CHOICE, default='payment', null=True)
     feedback_textbox = models.TextField()

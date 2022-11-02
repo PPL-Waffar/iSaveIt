@@ -17,9 +17,10 @@ def add_feedback_report(request):
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
+        feedback_title = data.get('input_feedback_title')
         feedback_feature = data.get('input_feedback_feature')
         feedback_textbox = data.get('input_feedback_texbox')
         owninguser = Account.objects.get(email = email)
-        new_feedback_report = Feedback(user_feedback = owninguser, feedback_feature = feedback_feature, feedback_textbox = feedback_textbox)
+        new_feedback_report = Feedback(user_feedback = owninguser, feedback_title = feedback_title, feedback_feature = feedback_feature, feedback_textbox = feedback_textbox)
         new_feedback_report.save()
     return JsonResponse({'isSuccessful':True},safe = False)

@@ -19,6 +19,7 @@ class AddFeedbackReportTest(TestCase):
 
         response = self.client.post('/feedbackreport/add-feedback-report/',json.dumps({
             'session_id' : session.session_key,
+            'input_feedback_title' : 'payment error',
             'input_feedback_feature' : 'payment',
             'input_feedback_texbox' : 'payment feature is not working',
         }),content_type='application/json')
