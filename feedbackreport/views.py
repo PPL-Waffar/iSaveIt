@@ -37,6 +37,6 @@ def delete_feedback_report(request):
         email = session.get('_auth_user_id')
         feedback_title = data.get('input_feedback_title')
         owninguser = Account.objects.get(email = email)
-        feedback_report = Feedback.objects.get(user_pocket = owninguser, feedback_title = feedback_title)
+        feedback_report = Feedback.objects.get(user_feedback = owninguser, feedback_title = feedback_title)
         feedback_report.delete()
     return JsonResponse({'isSuccessful':True},safe = False)
