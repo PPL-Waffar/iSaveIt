@@ -3,7 +3,7 @@ import json
 
 from feedbackreport.models import Feedback
 
-class AddFeedbackReportTest(TestCase):
+class FeedbackReportTest(TestCase):
     def setup_account(self):
         self.client.post('/user/flu-register-user/',json.dumps({
             'email' : 'test@test.com',
@@ -28,14 +28,6 @@ class AddFeedbackReportTest(TestCase):
 
         self.assertIsNotNone(feedback)
         self.assertEqual(response.status_code, 200)
-
-class DeleteFeedbackReportTest(TestCase):
-    def setup_account(self):
-        self.client.post('/user/flu-register-user/',json.dumps({
-            'email' : 'test@test.com',
-            'name' : 'testwithdjango',
-            'password': 'test',
-        }),content_type='application/json')
 
     def test_deletefeedback(self):
         self.setup_account()
