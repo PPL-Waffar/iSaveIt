@@ -35,16 +35,21 @@ class FeedbackReportTest(TestCase):
         session['_auth_user_id'] = 'test@test.com'
         session.save()
 
-        response = self.client.post('/feedbackreport/add-feedback-report/',json.dumps({
+        content_type = 'application/json'
+
+        self.client.post('/feedbackreport/add-feedback-report/',json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_title' : 'payment error',
-            'input_feedback_feature' : 'payment',
-            'input_feedback_texbox' : 'payment feature is not working',
-        }),content_type='application/json')
+            'input_feedback_rating' : 5,
+            'input_feedback_goal' : 'i hope i will save money',
+            'input_feedback_text' : 'less impulsive expenses',
+            'input_feedback_text2' : 'very helpful and fun to do',
+            'input_feedback_comment' : 'i think the application has quite good features',
+
+        }),content_type=content_type)
 
         response = self.client.delete('/feedbackreport/delete-feedback-report/',json.dumps({
             'session_id': session.session_key,
-            'input_feedback_title' : 'payment error',
-        }),content_type='application/json')
+            'id': 1,
+        }),content_type=content_type)
 
         self.assertEqual(response.status_code, 200)

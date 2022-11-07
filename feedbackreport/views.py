@@ -35,9 +35,9 @@ def delete_feedback_report(request):
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
-        feedback_title = data.get('input_feedback_title')
+        feedback_id = data.get('id')
         owninguser = Account.objects.get(email = email)
-        feedback_report = Feedback.objects.get(user_feedback = owninguser, feedback_title = feedback_title)
+        feedback_report = Feedback.objects.get(user_feedback = owninguser, id = feedback_id)
         feedback_report.delete()
     return JsonResponse({'isSuccessful':True},safe = False)
 
