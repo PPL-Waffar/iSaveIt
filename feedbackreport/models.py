@@ -10,5 +10,5 @@ class Feedback(models.Model):
     feedback_text = models.TextField(max_length=100, default='')
     feedback_text2 = models.TextField(max_length=100, default='')
     feedback_comment = models.TextField(max_length=100, default='')
-    feedback_date = models.DateTimeField(auto_now_add=True)
+    feedback_date = models.DateField(auto_now_add=True)
 
