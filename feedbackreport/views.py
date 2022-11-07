@@ -24,3 +24,39 @@ def add_feedback_report(request):
         new_feedback_report = Feedback(user_feedback = owninguser, feedback_title = feedback_title, feedback_feature = feedback_feature, feedback_textbox = feedback_textbox)
         new_feedback_report.save()
     return JsonResponse({'isSuccessful':True},safe = False)
+
+@require_http_methods(["DELETE"])
+@csrf_exempt
+def delete_feedback_report(request):
+    if request.method == "DELETE":
+        data = json.loads(request.body.decode("utf-8"))
+        session_id = data.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        feedback_title = data.get('input_feedback_title')
+        owninguser = Account.objects.get(email = email)
+        feedback_report = Feedback.objects.get(user_feedback = owninguser, feedback_title = feedback_title)
+        feedback_report.delete()
+    return JsonResponse({'isSuccessful':True},safe = False)
+
+@require_http_methods(["GET"])
+@csrf_exempt
+def view_feedback_report(request):
+    if request.method == "GET":
+        session_id = request.GET.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        owninguser = Account.objects.get(email = email)
+        feedback_report = Feedback.objects.filter(user_feedback = owninguser)
+        feedback_report_list = []
+        for feedback in feedback_report:
+            feedback_report_list.append({
+                'feedback_title' : feedback.feedback_title,
+                'feedback_feature' : feedback.feedback_feature,
+                'feedback_textbox' : feedback.feedback_textbox
+            })
+        return JsonResponse(feedback_report_list,safe = False)
