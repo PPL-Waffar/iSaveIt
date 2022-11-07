@@ -24,14 +24,15 @@ class FeedbackReportTest(TestCase):
 
         response = self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_title' : payment_error_title,
-            'input_feedback_feature' : 'payment',
-            'input_feedback_texbox' : payment_error_content,
+            'input_feedback_rating' : 5,
+            'input_feedback_goal' : 'i hope i will save money',
+            'input_feedback_text' : 'less impulsive expenses',
+            'input_feedback_text2' : 'very helpful and fun to do',
+            'input_feedback_comment' : 'i think the application has quite good features',
+
         }),content_type=content_type)
 
-        feedback = Feedback.objects.filter(feedback_feature = 'payment').first()
-
-        self.assertIsNotNone(feedback)
+        self.assertIsNotNone(response)
         self.assertEqual(response.status_code, 200)
 
     def test_deletefeedback(self):
@@ -40,19 +41,25 @@ class FeedbackReportTest(TestCase):
         session['_auth_user_id'] = testemail
         session.save()
 
-        self.client.post(add_feedback_url,json.dumps({
+        content_type = 'application/json'
+
+        self.client.post('/feedbackreport/add-feedback-report/',json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_title' : payment_error_title,
-            'input_feedback_feature' : 'payment',
-            'input_feedback_texbox' : payment_error_content,
+            'input_feedback_rating' : 5,
+            'input_feedback_goal' : 'i hope i will save money',
+            'input_feedback_text' : 'less impulsive expenses',
+            'input_feedback_text2' : 'very helpful and fun to do',
+            'input_feedback_comment' : 'i think the application has quite good features',
+
         }),content_type=content_type)
 
         response = self.client.delete('/feedbackreport/delete-feedback-report/',json.dumps({
             'session_id': session.session_key,
-            'input_feedback_title' : payment_error_title,
+            'id': 1,
         }),content_type=content_type)
 
         self.assertEqual(response.status_code, 200)
+
     def test_viewfeedback(self):
         self.setup_account()
         session = self.client.session
@@ -61,28 +68,37 @@ class FeedbackReportTest(TestCase):
 
         self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_title' : payment_error_title,
-            'input_feedback_feature' : 'payment',
-            'input_feedback_texbox' : payment_error_content,
+            'input_feedback_rating' : 5,
+            'input_feedback_goal' : 'i hope i will save money',
+            'input_feedback_text' : 'less impulsive expenses',
+            'input_feedback_text2' : 'very helpful and fun to do',
+            'input_feedback_comment' : 'i think the application has quite good features',
+
         }),content_type=content_type)
 
         self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_title' : 'home page error',
-            'input_feedback_feature' : 'home page',
-            'input_feedback_texbox' : 'home page is not working',
+            'input_feedback_rating' : 9,
+            'input_feedback_goal' : 'i hope i will save money2',
+            'input_feedback_text' : 'less impulsive expenses2',
+            'input_feedback_text2' : 'very helpful and fun to do2',
+            'input_feedback_comment' : 'i think the application has quite good features2',
+
         }),content_type=content_type)
 
         self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_title' : 'pocket error',
-            'input_feedback_feature' : 'pocket',
-            'input_feedback_texbox' : 'pocket is not working',
+            'input_feedback_rating' : 8,
+            'input_feedback_goal' : 'i hope i will save money3',
+            'input_feedback_text' : 'less impulsive expenses3',
+            'input_feedback_text2' : 'very helpful and fun to do3',
+            'input_feedback_comment' : 'i think the application has quite good features3',
+
         }),content_type=content_type)
 
         self.client.delete('/feedbackreport/delete-feedback-report/',json.dumps({
             'session_id': session.session_key,
-            'input_feedback_title' : 'pocket error',
+            'id': 1,
         }),content_type=content_type)
 
         response = self.client.get('/feedbackreport/view-feedback-report/',{
@@ -99,13 +115,15 @@ class FeedbackReportTest(TestCase):
 
         self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_title' : payment_error_title,
-            'input_feedback_feature' : 'payment',
-            'input_feedback_texbox' : payment_error_content,
-        }),content_type=content_type)
+            'input_feedback_rating' : 5,
+            'input_feedback_goal' : 'i hope i will save money',
+            'input_feedback_text' : 'less impulsive expenses',
+            'input_feedback_text2' : 'very helpful and fun to do',
+            'input_feedback_comment' : 'i think the application has quite good features',
+            }),content_type=content_type)
 
         response = self.client.get('/feedbackreport/view-feedback-report/',{
             'session_id': session.session_key,
         })
 
-        self.assertNotEqual(json.loads(response.content)[0]['feedback_title'], 'home page error')
+        self.assertNotEqual(json.loads(response.content)[0]['feedback_goal'], 'home page error')
