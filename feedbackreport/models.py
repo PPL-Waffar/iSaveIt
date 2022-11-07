@@ -1,17 +1,14 @@
 from django.db import models
 from user.models import Account
 
-FEATURE_CHOICE = [
-    ('payment', 'payment'),
-    ('pocket', 'pocket'),
-    ('transaction', 'transaction'),
-    ('expense', 'expense'),
-    ('financialreport', 'financialreport'),
-    ('transaction', 'transaction'),
-]
+
 
 class Feedback(models.Model):
     user_feedback = models.ForeignKey(Account, on_delete=models.RESTRICT, default='')
-    feedback_title = models.CharField(primary_key=True, blank=True, max_length=250)
-    feedback_feature = models.CharField(max_length=200, choices=FEATURE_CHOICE, default='payment', null=True)
-    feedback_textbox = models.TextField()
+    feedback_rating = models.IntegerField(default=0)
+    feedback_goal = models.TextField(max_length=100, default='')
+    feedback_text = models.TextField(max_length=100, default='')
+    feedback_text2 = models.TextField(max_length=100, default='')
+    feedback_comment = models.TextField(max_length=100, default='')
+    feedback_date = models.DateField(auto_now_add=True)
+

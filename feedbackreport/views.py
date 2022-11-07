@@ -17,12 +17,14 @@ def add_feedback_report(request):
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
-        feedback_title = data.get('input_feedback_title')
-        feedback_feature = data.get('input_feedback_feature')
-        feedback_textbox = data.get('input_feedback_texbox')
-        owninguser = Account.objects.get(email = email)
-        new_feedback_report = Feedback(user_feedback = owninguser, feedback_title = feedback_title, feedback_feature = feedback_feature, feedback_textbox = feedback_textbox)
-        new_feedback_report.save()
+        feedback_rating = data.get('input_feedback_rating')
+        feedback_goal = data.get('input_feedback_goal')
+        feedback_text = data.get('input_feedback_text')
+        feedback_text2 = data.get('input_feedback_text2')
+        feedback_comment = data.get('input_feedback_comment')
+        user_feedback = Account.objects.get(email=email)
+        feedback = Feedback(user_feedback=user_feedback, feedback_rating=feedback_rating, feedback_goal=feedback_goal, feedback_text=feedback_text, feedback_text2=feedback_text2, feedback_comment=feedback_comment)
+        feedback.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 
 @require_http_methods(["DELETE"])
@@ -55,8 +57,10 @@ def view_feedback_report(request):
         feedback_report_list = []
         for feedback in feedback_report:
             feedback_report_list.append({
-                'feedback_title' : feedback.feedback_title,
-                'feedback_feature' : feedback.feedback_feature,
-                'feedback_textbox' : feedback.feedback_textbox
+                'feedback_rating': feedback.feedback_rating,
+                'feedback_goal': feedback.feedback_goal,
+                'feedback_text': feedback.feedback_text,
+                'feedback_text2': feedback.feedback_text2,
+                'feedback_comment': feedback.feedback_comment,
             })
         return JsonResponse(feedback_report_list,safe = False)
