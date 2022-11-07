@@ -63,3 +63,29 @@ def get_transaction(request):
             })
         data = json.dumps(transaction_list)
         return HttpResponse(data, content_type='application/json')
+
+@csrf_exempt
+def delete_transaction(request):
+    data = json.loads(request.body.decode("utf-8"))
+    session_id = request.GET.get('session_id')
+    engine = import_module(settings.SESSION_ENGINE)
+    sessionstore = engine.SessionStore
+    session = sessionstore(session_id)
+    email = session.get('_auth_user_id')
+    owninguser = Account.objects.get(email = email)
+    transaction_payment_name = request.GET.get('transaction_payment_name')
+    transaction = Transaction.objects.get(user_transaction = owninguser, transaction_payment_name = transaction_payment_name)
+    transaction_pocket = data.get('input_transaction_pocket')
+    owning_pocket = Pocket.objects.get(pocket_name = transaction_pocket, user_pocket = owninguser)
+    if transaction.transaction_payment_type == 'Expense':
+        owning_pocket.pocket_budget += int(transaction.transaction_amount)
+        owning_pocket.save()
+    else:
+        owning_pocket.pocket_budget -= int(transaction.transaction_amount)
+        owning_pocket.save()
+    transaction.delete()
+
+
+
+    
+

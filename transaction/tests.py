@@ -43,6 +43,32 @@ class TransactionTest(TestCase):
             'session_id': session.session_key,
         })
         self.assertEqual(response.status_code, 200)
+    
+    def delete_transaction(self):
+        self.setup_account()
+        session = self.client.session
+        session['_auth_user_id'] = 'test@test.com'
+        session.save()
+        response = self.client.post('/transaction/delete-transaction/',json.dumps({
+            'session_id' : session.session_key,
+            'transaction_payment_name' : 'warteg',
+            'input_transaction_pocket' : 'testpocket',
+        }),content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+    
+    def delete_transaction_wrong_pocket(self):
+        self.setup_account()
+        session = self.client.session
+        session['_auth_user_id'] = 'test@test.com'
+        session.save()
+        response = self.client.post('/transaction/delete-transaction/',json.dumps({
+            'session_id' : session.session_key,
+            'transaction_payment_name' : 'warteg',
+            'input_transaction_pocket' : 'testpocket2',
+        }),content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+
+
 
 
 
