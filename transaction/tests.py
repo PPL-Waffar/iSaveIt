@@ -44,6 +44,20 @@ class TransactionTest(TestCase):
         })
         self.assertEqual(response.status_code, 200)
     
+    def test_getwrongtransaction(self):
+        self.setup_account()
+        session = self.client.session
+        session['_auth_user_id'] = 'test@test.com'
+        session.save()
+        response = self.client.get('/transaction/get-transaction/',{
+            'session_id': 'wrongsession',
+        })
+        self.assertEqual(response.status_code, 404)
+
+
+        
+        
+    
     def delete_transaction(self):
         self.setup_account()
         session = self.client.session
