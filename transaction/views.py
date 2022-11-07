@@ -64,7 +64,7 @@ def get_transaction(request):
                 })
             data = json.dumps(transaction_list)
             return HttpResponse(data, content_type='application/json')
-        except:
+        except Account.DoesNotExist or Transaction.DoesNotExist:
             return JsonResponse({'isSuccessful':False},status=404,safe = False)
 
 @csrf_exempt
