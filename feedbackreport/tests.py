@@ -5,6 +5,7 @@ from feedbackreport.models import Feedback
 testemail = 'test@test.com'
 content_type = 'application/json'
 add_feedback_url = '/feedbackreport/add-feedback-report/'
+delete_feedback_url = '/feedbackreport/delete-feedback-report/'
 payment_error_title = 'payment error'
 payment_error_content = 'payment feature is not working'
 
@@ -41,9 +42,7 @@ class FeedbackReportTest(TestCase):
         session['_auth_user_id'] = testemail
         session.save()
 
-        content_type = 'application/json'
-
-        self.client.post('/feedbackreport/add-feedback-report/',json.dumps({
+        self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
             'input_feedback_rating' : 5,
             'input_feedback_goal' : 'i hope i will save money',
@@ -53,7 +52,7 @@ class FeedbackReportTest(TestCase):
 
         }),content_type=content_type)
 
-        response = self.client.delete('/feedbackreport/delete-feedback-report/',json.dumps({
+        response = self.client.delete(delete_feedback_url,json.dumps({
             'session_id': session.session_key,
             'id': 1,
         }),content_type=content_type)
