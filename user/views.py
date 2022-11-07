@@ -34,3 +34,21 @@ def flutter_user_login(request):
         if user:
             login(request, user)
             return JsonResponse({"session-id": request.session.session_key, "is_staff": False, "role_users": True, "email": user.email})
+@csrf_exempt
+def flutter_edit_profile(request):
+    if request.method == "POST":
+        data = request.body.decode("utf-8")
+        cleaned_data = json.loads(data)
+        data = json.loads(request.body.decode('utf-8'))
+        session_id = data.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        password = cleaned_data["password"]
+        name = cleaned_data["name"]
+        req_user = Account.objects.get(email = email)
+        req_user.name = name
+        req_user.set_password(password)
+        req_user.save()
+        return JsonResponse({"session-id": request.session.session_key, "is_staff": False, "role_users": True, "email": req_user.email, "name": req_user.name})
