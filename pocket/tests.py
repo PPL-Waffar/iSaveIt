@@ -105,7 +105,7 @@ class EditPocketTest(TestCase):
 
         response = self.client.post('/pocket/edit-pocket/',json.dumps({
             'session_id': session.session_key,
-            'input_pocketname' : 'testpocket',
+            'pocketold' : 'testpocket',
             'input_pocketbudget' : 3000,
         }),content_type='application/json')
         
