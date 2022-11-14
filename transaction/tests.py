@@ -1,7 +1,8 @@
-import datetime
 from django.test import TestCase
 import json
-from json import JSONEncoder
+
+from transaction.models import Transaction
+
 class TransactionTest(TestCase):
     def setup_account(self):
         self.client.post('/user/flu-register-user/',json.dumps({
@@ -11,7 +12,6 @@ class TransactionTest(TestCase):
         }),content_type='application/json')
 
     def test_input_transaction(self):
-        
         self.setup_account()
         session = self.client.session
         session['_auth_user_id'] = 'test@test.com'
@@ -33,19 +33,4 @@ class TransactionTest(TestCase):
             'input_transaction_pocket' : 'testpocket',
         }),content_type='application/json')
         self.assertEqual(response.status_code, 200)
-
-    def test_gettransaction(self):
-        self.setup_account()
-        session = self.client.session
-        session['_auth_user_id'] = 'test@test.com'
-        session.save()
-        response = self.client.get('/transaction/get-transaction/',{
-            'session_id': session.session_key,
-        })
-        self.assertEqual(response.status_code, 200)
-
-
-
-
-        
-
+    

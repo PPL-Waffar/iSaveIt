@@ -7,7 +7,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
-
+def formatrupiah(uang):
+    y = str(uang)
+    if len(y) <= 3 :
+        return 'Rp ' + y     
+    else :
+        p = y[-3:]
+        q = y[:-3]
+        return formatrupiah(q) + '.' + p
 @require_http_methods(["POST"])
 @csrf_exempt
 def add_pocket(request):
@@ -38,7 +45,7 @@ def get_pocket(request):
     for pocket in pockets:
         pocket_list.append({
             'pocket_name' : pocket.pocket_name,
-            'pocket_budget' : str(pocket.pocket_budget)
+            'pocket_budget' : formatrupiah(pocket.pocket_budget)
         })
     data = json.dumps(pocket_list)
     return HttpResponse(data, content_type='application/json')
@@ -52,6 +59,7 @@ def delete_pocket(request):
         engine = import_module(settings.SESSION_ENGINE)
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
+
         email = session.get('_auth_user_id')
         pocket_name = data.get('input_pocketname')
         owninguser = Account.objects.get(email = email)
@@ -70,25 +78,11 @@ def edit_pocket(request):
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
-        pocket_name = data.get('input_pocketname')
+        pocketlama = data.get('pocketold')
+        new_pocket_name = data.get('input_pocketname')
         new_pocket_budget = data.get('input_pocketbudget')
         owninguser = Account.objects.get(email = email)
-        pocket = Pocket.objects.get(user_pocket = owninguser, pocket_name = pocket_name)
+        pocket = Pocket.objects.get(user_pocket = owninguser, pocket_name = pocketlama)
         pocket.pocket_budget = new_pocket_budget
         pocket.save()
     return JsonResponse({'isSuccessful':True},safe = False)
-
-@require_http_methods(["GET"])
-def total_pocket(request):
-    if request.method == "GET":
-        session_id = request.GET.get('session_id')
-        engine = import_module(settings.SESSION_ENGINE)
-        sessionstore = engine.SessionStore
-        session = sessionstore(session_id)
-        email = session.get('_auth_user_id')
-        owninguser = Account.objects.get(email = email)
-        pockets = Pocket.objects.filter(user_pocket = owninguser)
-        total_pocket_budget = 0
-        for pocket in pockets:
-            total_pocket_budget += pocket.pocket_budget
-        return JsonResponse({'total_pocket_budget':total_pocket_budget},safe = False)
