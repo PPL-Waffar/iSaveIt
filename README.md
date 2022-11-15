@@ -12,9 +12,356 @@
 2. Raihan Fadhila Sukmana - 2006519971
 3. Reynaldi Oktavianus 2006607601
 
+## iSaveIt Heroku Link:
+https://isaveit.herokuapp.com/
 
-### What is iSaveIt?
-iSaveIt is a money management application that hope to oprganize budget and expenses with the intent that users can spend their money responsibly. The features we hope to implement are creating multiple pockets as needed, input transactions, keep track of the money users might've borrowed from other people, viewing the finance report, and reading newsletter about finance and economy. 
+
+### iSaveIt: A financial management application
+iSaveIt is a money management application that hope to organize budget and expenses with the intent that users can spend their money responsibly. The features we hope to implement are creating multiple pockets as needed, input transactions, keep track of the money users might've borrowed from other people, viewing the finance report, and reading newsletter about finance and economy. 
+
+### List of iSaveIt Features:
+Register
+Before the users can access the features of the application, they are required to register themselves by inputting their personal information.
+The details of the information includes:
+-Name
+-Email
+-Password
+-Password confirmation
+
+Login
+Once the users have registered themselves, they are required to login to the application in order to access the remaining features. To login to the application, they are required to input the same emails and password that they have used in the registration process.
+
+Budget Tracker
+This feature mainly focuses on giving the users the options to input their budget as well as expense. Budget Tracker allows users to:
+-Input their expense and put categories on each of their spending 
+-Input their income to increase their budget
+-Check the list of their transactions from the pocket page or the report page
+-Choose to input their debt in a form of expense (debt)
+-Choose to input the money they have borrowed to other people in a form of expense (lending money)
+-View the list of expenses that are categorized as either debt or lending money
+
+Budget Categories
+The Budget Categories feature focuses on dividing the user’s budget into several categories based on their needs, the budget is referred to as pocket. By utilizing Budget Categories feature, the users are able to:
+-Create new pocket, by allocating their budget into some categories that are provided by iSaveIt application, as well as creating new categories title that they desired
+-Delete the pocket they have created
+-View the details of their pocket
+-Edit the details of the pocket they have created
+-View the list of pocket categories that they are free to choose
+
+Planned Payment
+The planned payment feature focuses on keeping track of the user’s subscription/recurring payments, such as Spotify, Netflix, HBO,etc. This feature provides users with access to:
+-Input the subscription
+-Remove the subscription
+-See the details of their subscription
+-Update the details of their subscription
+-See the list of subscriptions they have
+
+
+Finance Report
+The finance report feature displays the details of the user’s financial report, including:
+-Spending report divided into categories, will be displayed in a form of pie chart
+-The list of individual income and expense, including the information of the payment and the amount
+-Download finance report button option
+
+Newsletter
+The Newsletter feature provides articles and news related to finance, money management, saving money tips and tricks, etc, that are available for the users to choose and read. Newsletter feature flow:
+-The admin will retrieve online article API to be displayed on the user’s newsletter page
+-The users can click on and read each article
+-The admin can choose to delete the newsletters that are no longer required
+
+Feedback Report
+The Feedback Report feature focuses on providing an option for the users to share their opinions and feedback regarding the application. 
+-The users are able to create feedback report
+-The users are able to delete the feedback report
+-The admins will fix the application based on the users’ feedback
+-The users are able to update the application once the admins have fixed the problem relating to the application
+
+Edit Profile
+During the registration process, the users are asked to input details regarding their personal information, which later will be displayed on their profile page. The Edit Profile feature allows users to create changes on their personal information. The updated information will then be displayed on their profile page. 
+
+Changes:
+-There are changes in the Epic Feedback Report. Initially, the feature consists of feedback reports made by users, and can be accessed by admins only. The feature has been transformed into satisfaction report, the difference is that:
+    -The purpose of the feature will be for users to keep track of their finance management progress
+    -The feedback reports are accessible to users
+    -The users are allowed to delete the feedback report if the report is above three months old
+    -The feedback report feature is in a form of questions related to the user’s goals, motivation, and feedback
+
+## Summary of SQA
+Sprint 1
+1. PPL-6 : View Pocket Categories
+    Tester : Firlandi
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+2. PPL-7: Create Pocket
+    Tester: Firlandi
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+3. PPL-11: Read Planned Payments
+    Tester: Firlandi
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+4. PPL-12: Update Planned Payments
+    Tester: Firlandi
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+5. PPL-12: Delete Planned Payments
+    Tester: Firlandi
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+
+6. PPL-9: View pocket details
+    Tester: Anastasia Audi
+    UI/UX
+    -Browser: Not Tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+7. PPL-10: Create pocket details
+    Tester: Anastasia Audi
+    UI/UX
+    -Browser: Not Tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+8. PPL-11: Edit pocket details
+    Tester: Anastasia Audi
+    UI/UX
+    -Browser: Not Tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+9. PPL-12: Delete pocket
+    Tester: Anastasia Audi
+    UI/UX
+    -Browser: Not Tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+10. PPL-13: Create planned payment
+    Tester: Anne Yuliana
+    UI/UX
+    -Browser: Not Tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+11. PPL-14: Remove planned payment
+    Tester: Anne Yuliana
+    UI/UX
+    -Browser: Not Tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+12. PPL-11: Edit Pocket details
+    Tester: Raihan
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+13. PPL-12: Delete Pocket details
+    Tester: Raihan
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+14. PPL-13: Create Planned payment
+    Tester: Winaldo
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+15. PPL-30: Register
+    Tester: Winaldo
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+16. PPL-28: Login
+    Tester: Winaldo
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+17. PPL-30: Register
+    Tester: Reynaldi
+    UI/UX
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+18. PPL-28: Login
+    Tester: Reynaldi
+    UI/UX
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+## Homepage
+Tester: Reynaldi
+UI/UX
+-Browser: Pass
+-Local: Pass 
+-Staging: Pass
+-Production: Pass
+
+Sprint 2
+1. PPL-2: Input Expense Report
+    Tester: Anastasia Audi
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+2. PPL-3: Input Income report
+    Tester: Anastasia Audi
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+3. PPL-4: View transactions
+    Tester: Reynaldi
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+4. PPL-4: View Expense
+    Tester: Firlandi
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+5. PPL-5: Make the expense for debt
+    Tester: Anne
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+6. PPL-6: Make the expense after lending money
+    Tester: Anne
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+7. PPL-2&3: Input transactions
+    Tester: Raihan
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+8. PPL-5&6: Add expense report
+    Tester: Winaldo
+    Functionality
+    -Browser: Pass
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+
+Sprint 3
+1. PPL-18: See financial report details
+    Tester: Firlandi
+    Functionality
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+2. PPL-18: See financial report details
+    Tester: Reynaldi
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+3. PPL-19: Download financial report button
+    Tester: Anne
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+4. PPL-23: Create feedback
+    Tester: Raihan
+    Functionality
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+5. PPL-29: Edit profile
+    Tester: Winaldo
+    Functionality
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+6. PPL-29: Edit profile
+    Tester: Anastasia Audi
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+
+Sprint 4
+1. PPL-27: View list of feedback report
+    Tester: Anne
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+2. PPL-23: Create feedback/satisfaction report
+    Tester: Anastasia Audi
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+3. PPL-24: View report details
+    Tester: Reynaldi
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+4. PPL-24: View report details
+    Tester: Firlandi
+    Functionality
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+5. PPL-26: Delete Satisfaction Report
+    Tester: Reynaldi
+    UI/UX
+    -Browser: Not tested
+    -Local: Pass 
+    -Staging: Pass
+    -Production: Pass
+
 
 ## Getting Started
 This is a `Django` project that mainly contain the `back-end` materials.
