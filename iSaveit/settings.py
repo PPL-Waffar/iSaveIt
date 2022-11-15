@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'pocket',
     'payment',
     'corsheaders',
-    'user'
+    'user',
+    'expense',
+    'transaction',
+    'financialreport',
+    'feedbackreport',
 
 ]
 AUTHENTICATION_BACKENDS = (
