@@ -1,4 +1,5 @@
 from newsletter.models import Newsletter
+from django import forms
 
 
 class NewsletterForm(forms.ModelForm):
