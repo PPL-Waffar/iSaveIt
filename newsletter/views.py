@@ -13,9 +13,6 @@ def add_newsletter(request):
             context['form'].save()
             context['form'] = NewsletterForm()
             return render(request, 'newsletter.html', context)
-        else:
-            context['form'] = NewsletterForm()
-            return render(request, 'newsletter.html', context)
     else:
         context = {}
         context['form'] = NewsletterForm()
