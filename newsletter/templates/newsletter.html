@@ -10,29 +10,11 @@
     <body>
         {% block content %}
         <div class="container">
-          <form method="POST"> 
             <h1>Submit Form</h1>
-            {% csrf_token %}
-            <div>
-                <div>
-                    <label>Category</label>
-                    <select name="newsletter_category" required>
-                        <option value="tips">Tips</option>
-                        <option value="news">News</option>
-                </div><br>
-                <div>
-                    <label>News</label>
-                    <textarea cols="40" rows="20" placeholder="Type news here"name="newsletter_text" required></textarea>
-                </div><br>
-                <div>
-                    <label>Picture</label>
-                    <input type="file" class="form-control" name="newsletter_picture" required>
-                </div><br>
-                
-            </div>
-            <input type ="submit" class="button" id="button1" value="Submit">
-            <input type="reset" class="button" id="button2" value="Clear" href="/">
-            </form>
+            <form action="" method="POST"  enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Submit</button>
         </div>
         
         
