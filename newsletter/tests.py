@@ -13,7 +13,7 @@ class AddNewsletterTest(TestCase):
                 })).wsgi_request)
         self.assertEqual(response.status_code, 200)
 
-    def test_add_newsletter(self):
+    def test_add_newsletter_negative(self):
         file = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
         response = add_newsletter((self.client.post(
             '/add-newsletter/', {
