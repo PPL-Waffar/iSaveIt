@@ -3,6 +3,7 @@ from django import forms
 
 
 class NewsletterForm(forms.ModelForm):
+    newsletter_image = forms.ImageField(required=False)
     class Meta:
         model = Newsletter
         #required fields

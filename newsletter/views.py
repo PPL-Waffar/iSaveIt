@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from newsletter.forms import NewsletterForm
-from newsletter.models import Newsletter
+from django.views.decorators.http import require_http_methods
 
+@require_http_methods(["POST"])
 def add_newsletter(request):
     if request.method == 'POST':
         context = {}
