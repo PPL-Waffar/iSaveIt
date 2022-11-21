@@ -4,6 +4,8 @@ from newsletter.models import Newsletter
 import json
 from django.http import HttpResponse, JsonResponse
 
+from django.shortcuts import get_object_or_404, render,HttpResponseRedirect
+
 def index(request):
     return render(request, 'newsletter.html')
 
@@ -31,4 +33,24 @@ def view_newsletter_list(request):
         })
     data = json.dumps(newsletter_list)
     return HttpResponse(data, content_type='application/json')
+
+def delete_newsletter(request,id):
+    context ={}
+ 
+    # fetch the object related to passed id
+    obj = get_object_or_404(Newsletter, id = id)
+ 
+ 
+    if request.method =="POST":
+        # delete object
+        obj.delete()
+        # after deleting redirect to
+        # home page
+        return HttpResponseRedirect("list/")
+    
+    return render(request, "delete_view.html", context)
+
+def newsletterhtmk(request):
+    obj=Newsletter.objects.all()
+    return render(request,'list.html',{"obj":obj})
 
