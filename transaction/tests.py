@@ -1,8 +1,10 @@
-import datetime
 from django.test import TestCase
 import json
 from json import JSONEncoder
 myvar = '/transaction/input-transaction/'
+
+from transaction.models import Transaction
+
 class TransactionTest(TestCase):
     
     def setup_account(self):

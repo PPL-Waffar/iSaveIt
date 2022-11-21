@@ -18,12 +18,21 @@ class AddPayment(TestCase):
         session['_auth_user_id'] = 'test@test.com'
         session.save()
 
+        response = self.client.post('/pocket/add-pocket/',json.dumps({
+            'session_id' : session.session_key,
+            'input_pocketname' : 'testpocket',
+            'input_pocketbudget' : 1000,
+        }),content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+
         response = self.client.post('/payment/flu-add-payment/',json.dumps({
             'session_id': session.session_key,
             'input_payname': 'test',
             'input_payamount': '100',
             'input_paydate': '2020-01-01',
-            'input_paymentchoice': 'cash'
+            'input_paymentchoice': 'cash',
+            'input_paycategories': 'testpocket',
         }),content_type='application/json')
         self.assertEqual(response.status_code,200)
 
@@ -41,20 +50,21 @@ class GetPayment(TestCase):
         session['_auth_user_id'] = 'test@test.com'
         session.save()
 
+        response = self.client.post('/pocket/add-pocket/',json.dumps({
+            'session_id' : session.session_key,
+            'input_pocketname' : 'testpocket',
+            'input_pocketbudget' : 1000,
+        }),content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+
         response = self.client.post('/payment/flu-add-payment/',json.dumps({
             'session_id': session.session_key,
             'input_payname': 'test',
             'input_payamount': '100',
             'input_paydate': '2020-01-01',
-            'input_paymentchoice': 'cash'
-        }),content_type='application/json')
-
-        response = self.client.post('/payment/flu-add-payment/',json.dumps({
-            'session_id': session.session_key,
-            'input_payname': 'test2',
-            'input_payamount': '1002',
-            'input_paydate': '2022-01-01',
-            'input_paymentchoice': 'cash'
+            'input_paymentchoice': 'cash',
+            'input_paycategories': 'testpocket',
         }),content_type='application/json')
 
         response = self.client.get('/payment/flu-get-payment/',{
@@ -76,13 +86,20 @@ class UpdatePayment(TestCase):
         session = self.client.session
         session['_auth_user_id'] = 'test@test.com'
         session.save()
+        response = self.client.post('/pocket/add-pocket/',json.dumps({
+            'session_id' : session.session_key,
+            'input_pocketname' : 'testpocket',
+            'input_pocketbudget' : 1000,
+        }),content_type='application/json')
 
+        self.assertEqual(response.status_code, 200)
         response = self.client.post('/payment/flu-add-payment/',json.dumps({
             'session_id': session.session_key,
             'input_payname': 'test',
             'input_payamount': '100',
             'input_paydate': '2020-01-01',
-            'input_paymentchoice': 'cash'
+            'input_paymentchoice': 'cash',
+            'input_paycategories': 'testpocket',
         }),content_type='application/json')
 
         response = self.client.post('/payment/flu-update-payment/',json.dumps({
@@ -110,12 +127,22 @@ class DeletePayment(TestCase):
         session['_auth_user_id'] = 'test@test.com'
         session.save()
 
+        response = self.client.post('/pocket/add-pocket/',json.dumps({
+            'session_id' : session.session_key,
+            'input_pocketname' : 'testpocket',
+            'input_pocketbudget' : 1000,
+        }),content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+
         response = self.client.post('/payment/flu-add-payment/',json.dumps({
             'session_id': session.session_key,
             'input_payname': 'test',
             'input_payamount': '100',
             'input_paydate': '2020-01-01',
-            'input_paymentchoice': 'cash'
+            'input_paymentchoice': 'cash',
+            'input_paycategories': 'testpocket',
+            
         }),content_type='application/json')
 
         #delete payment using http method delete
