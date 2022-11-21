@@ -2,9 +2,6 @@ from django.shortcuts import render
 from newsletter.forms import NewsletterForm
 from newsletter.models import Newsletter
 
-def index(request):
-    return render(request, 'newsletter.html')
-
 def add_newsletter(request):
     if request.method == 'POST':
         context = {}
@@ -13,8 +10,3 @@ def add_newsletter(request):
             context['form'].save()
             context['form'] = NewsletterForm()
             return render(request, 'newsletter.html', context)
-    else:
-        context = {}
-        context['form'] = NewsletterForm()
-        return render(request, 'newsletter.html', context)
-

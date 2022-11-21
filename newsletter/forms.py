@@ -6,7 +6,7 @@ class NewsletterForm(forms.ModelForm):
     class Meta:
         model = Newsletter
         #required fields
-        fields = ['newsletter_text', 'newsletter_picture', 'newsletter_category']
+        fields = ('newsletter_text', 'newsletter_picture', 'newsletter_category')
         labels = {
             'newsletter_text': 'Text',
             'newsletter_picture': 'Picture',
