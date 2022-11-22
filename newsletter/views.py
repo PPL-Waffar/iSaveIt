@@ -31,4 +31,3 @@ def view_newsletter_list(request):
         })
     data = json.dumps(newsletter_list)
     return HttpResponse(data, content_type='application/json')
-
