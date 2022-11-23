@@ -26,4 +26,4 @@ class AddNewsletterTest(TestCase):
     
     def test_wrong_delete(self):
         response = self.client.post(reverse('delete_newsletter', kwargs={'id': 1}))
-        self.assertEqual(response.status_code, 404)
+        self.assertNotEqual(response.status_code, 200)
