@@ -56,7 +56,7 @@ class TransactionTest(TestCase):
         response = self.client.get('/transaction/get-transaction/',{
             'session_id': 'wrongsession',
         })
-        self.assertEqual(response.status_code, 404)
+        self.assertNotEqual(response.status_code, 200)
     
     def input_trans(self,session):
         self.client.post('/pocket/add-pocket/',json.dumps({
@@ -85,7 +85,7 @@ class TransactionTest(TestCase):
             'transaction_payment_name' : 'warteg',
             'input_transaction_pocket' : 'testpocket2',
         }),content_type='application/json')
-        self.assertEqual(response.status_code, 404)
+        self.assertNotEqual(response.status_code, 200)
     
     def test_deletetransaction(self):
         self.setup_account()
