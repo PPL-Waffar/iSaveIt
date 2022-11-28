@@ -1,66 +1,52 @@
-from importlib import import_module
-import json
-from user.models import Account
-from feedbackreport.models import Feedback
+from cmath import exp
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
+from importlib import import_module
 from django.conf import settings
+from expense.models import Expense
+from pocket.models import Pocket
+from user.models import Account
+import json
+from django.http.response import JsonResponse
+from django.views.decorators.http import require_http_methods
+def formatrupiah(uang):
+    y = str(uang)
+    if len(y) <= 3 :
+        return 'Rp ' + y     
+    else :
+        p = y[-3:]
+        q = y[:-3]
+        return formatrupiah(q) + '.' + p
 
-@require_http_methods(["POST"])
 @csrf_exempt
-def add_feedback_report(request):
-    if request.method == "POST":
-        data = json.loads(request.body.decode("utf-8"))
-        session_id = data.get('session_id')
-        engine = import_module(settings.SESSION_ENGINE)
-        sessionstore = engine.SessionStore
-        session = sessionstore(session_id)
-        email = session.get('_auth_user_id')
-        feedback_rating = data.get('input_feedback_rating')
-        feedback_goal = data.get('input_feedback_goal')
-        feedback_text = data.get('input_feedback_text')
-        feedback_text2 = data.get('input_feedback_text2')
-        feedback_comment = data.get('input_feedback_comment')
-        user_feedback = Account.objects.get(email=email)
-        feedback = Feedback(user_feedback=user_feedback, feedback_rating=feedback_rating, feedback_goal=feedback_goal, feedback_text=feedback_text, feedback_text2=feedback_text2, feedback_comment=feedback_comment)
-        feedback.save()
-    return JsonResponse({'isSuccessful':True},safe = False)
+def view_financial_report(request):
+    session_id = request.GET.get('session_id')
+    engine = import_module(settings.SESSION_ENGINE)
+    sessionstore = engine.SessionStore
+    session = sessionstore(session_id)
+    email = session.get('_auth_user_id')
+    owninguser = Account.objects.get(email = email)
+    total_expense = 0
+    expenses = Expense.objects.filter(user_expense = owninguser)
+    for expense in expenses:
+        total_expense += expense.expense_amount
 
-@require_http_methods(["DELETE"])
-@csrf_exempt
-def delete_feedback_report(request):
-    if request.method == "DELETE":
-        data = json.loads(request.body.decode("utf-8"))
-        session_id = data.get('session_id')
-        engine = import_module(settings.SESSION_ENGINE)
-        sessionstore = engine.SessionStore
-        session = sessionstore(session_id)
-        email = session.get('_auth_user_id')
-        feedback_id = data.get('id')
-        owninguser = Account.objects.get(email = email)
-        feedback_report = Feedback.objects.get(user_feedback = owninguser, id = feedback_id)
-        feedback_report.delete()
-    return JsonResponse({'isSuccessful':True},safe = False)
+    total_income = 0
+    pockets = Pocket.objects.filter(user_pocket = owninguser)
+    for pocket in pockets:
+        total_income += pocket.pocket_budget
 
-@require_http_methods(["GET"])
-@csrf_exempt
-def view_feedback_report(request):
-    if request.method == "GET":
-        session_id = request.GET.get('session_id')
-        engine = import_module(settings.SESSION_ENGINE)
-        sessionstore = engine.SessionStore
-        session = sessionstore(session_id)
-        email = session.get('_auth_user_id')
-        owninguser = Account.objects.get(email = email)
-        feedback_report = Feedback.objects.filter(user_feedback = owninguser)
-        feedback_report_list = []
-        for feedback in feedback_report:
-            feedback_report_list.append({
-                'feedback_rating': feedback.feedback_rating,
-                'feedback_goal': feedback.feedback_goal,
-                'feedback_text': feedback.feedback_text,
-                'feedback_text2': feedback.feedback_text2,
-                'feedback_comment': feedback.feedback_comment,
-            })
-        return JsonResponse(feedback_report_list,safe = False)
+    expenses = Expense.objects.filter(user_expense = owninguser)
+    dict1 = dict.fromkeys(['01', '02', '03', '04','05','06','07','08','09','10','11','12'])
+    expense_list = []
+    
+    for key in dict1:
+        dict1[key] = []
+    for expense in expenses:
+        for key in dict1:
+            if str(expense.expense_date)[5:7] == str(key) :
+                dict1[key].append({'expense_name' : expense.expense_name,
+            'expense_amount' : formatrupiah(expense.expense_amount),
+            'expense_date' : str(expense.expense_date)})
+    
+    return JsonResponse({'total_expense': json.dumps(total_expense), 'total_income':json.dumps(total_income), 'expense_list':json.dumps(dict1)}, content_type="application/json")
