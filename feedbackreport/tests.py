@@ -5,6 +5,7 @@ from feedbackreport.models import Feedback
 testemail = 'test@test.com'
 content_type = 'application/json'
 add_feedback_url = '/feedbackreport/add-feedback-report/'
+delete_feedback_url = '/feedbackreport/delete-feedback-report/'
 payment_error_title = 'payment error'
 payment_error_content = 'payment feature is not working'
 
@@ -51,12 +52,13 @@ class FeedbackReportTest(TestCase):
 
         }),content_type=content_type)
 
-        response = self.client.delete('/feedbackreport/delete-feedback-report/',json.dumps({
+        response = self.client.delete(delete_feedback_url,json.dumps({
             'session_id': session.session_key,
             'id': 1,
         }),content_type=content_type)
 
         self.assertEqual(response.status_code, 200)
+
     def test_viewfeedback(self):
         self.setup_account()
         session = self.client.session

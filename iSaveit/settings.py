@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'transaction',
     'financialreport',
     'feedbackreport',
+    'newsletter',
 
 ]
 AUTHENTICATION_BACKENDS = (
@@ -67,7 +68,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'iSaveit.urls'
 
-ALLOWED_HOSTS = ['isaveit-staging.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['isaveit-staging.herokuapp.com','localhost','127.0.0.1']
 CORS_ALLOWED_ORIGINS = [
     "https://example.com",
     "https://sub.example.com",
@@ -157,3 +158,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 if 'DATABASE_URL' in os.environ:
     import dj_database_url
     DATABASES = {'default': dj_database_url.config()}
+
+MEDIA_URL = ''
+MEDIA_ROOT = ''
