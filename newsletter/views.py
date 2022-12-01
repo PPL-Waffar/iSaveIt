@@ -19,7 +19,6 @@ def add_newsletter(request):
         context['form'] = NewsletterForm()
     return render(request, 'newsletter.html', context)
 
-
 @require_http_methods(["GET"])
 @csrf_exempt
 def view_detail_newsletter(request, id):
