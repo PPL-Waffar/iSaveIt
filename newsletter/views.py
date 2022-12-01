@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from newsletter.forms import NewsletterForm
+from django.views.decorators.http import require_http_methods
 from newsletter.models import Newsletter
 import json
 from django.http import HttpResponse, JsonResponse
@@ -9,19 +10,14 @@ from django.shortcuts import get_object_or_404, render,HttpResponseRedirect
 def index(request):
     return render(request, 'newsletter.html')
 
+@require_http_methods(["GET", "POST"])
 def add_newsletter(request):
-    if request.method == 'POST':
-        context = {}
-        context['form'] = NewsletterForm(request.POST, request.FILES)
-        if context['form'].is_valid():
-            context['form'].save()
-            context['form'] = NewsletterForm()
-            return render(request, 'newsletter.html', context)
-    else:
-        context = {}
+    context = {}
+    context['form'] = NewsletterForm(request.POST, request.FILES)
+    if context['form'].is_valid():
+        context['form'].save()
         context['form'] = NewsletterForm()
-        return render(request, 'newsletter.html', context)
-
+    return render(request, 'newsletter.html', context)
 def view_newsletter_list(request):
     all_newsletter = Newsletter.objects.all()
     newsletter_list = []
