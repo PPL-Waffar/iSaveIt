@@ -53,7 +53,7 @@ class AddNewsletterTest(TestCase):
         newsletter_id = Newsletter.objects.get(newsletter_text='test').id
         response = view_detail_newsletter((self.client.get(
             '/view-detail-newsletter/id=' + str(newsletter_id) + '/')).wsgi_request, newsletter_id)
-        self.assertNotEqual(response.status_code, 200)
+        self.assertNotEqual(response.status_code, 404)
         
     def test_delete_newsletter(self):
         newsletter = self.create_newsletter()
