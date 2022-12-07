@@ -10,14 +10,14 @@ from django.shortcuts import get_object_or_404, render,HttpResponseRedirect
 
 from newsletter.models import Newsletter
 
-@require_http_methods(["GET", "POST"])
 def add_newsletter(request):
-    context = {}
-    context['form'] = NewsletterForm(request.POST, request.FILES)
-    if context['form'].is_valid():
-        context['form'].save()
-        context['form'] = NewsletterForm()
-    return render(request, 'newsletter.html', context)
+    if require_http_methods(["POST"]):
+        context = {}
+        context['form'] = NewsletterForm(request.POST, request.FILES)
+        if context['form'].is_valid():
+            context['form'].save()
+            context['form'] = NewsletterForm()
+        return render(request, 'newsletter.html', context)   
 
 @require_http_methods(["GET"])
 @csrf_exempt
