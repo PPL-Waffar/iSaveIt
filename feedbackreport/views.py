@@ -78,3 +78,30 @@ def view_feedback_report(request):
                 'feedback_check': feedback_check
             })
         return JsonResponse(feedback_report_list,safe = False)
+
+@require_http_methods(["POST"])
+@csrf_exempt
+def edit_feedback_report(request):
+    if request.method == "POST":
+        data = json.loads(request.body.decode("utf-8"))
+        session_id = data.get('session_id')
+        engine = import_module(settings.SESSION_ENGINE)
+        sessionstore = engine.SessionStore
+        session = sessionstore(session_id)
+        email = session.get('_auth_user_id')
+        feedback_id = data.get('id')
+        new_feedback_rating = data.get('input_feedback_rating')
+        new_feedback_goal = data.get('input_feedback_goal')
+        new_feedback_text = data.get('input_feedback_text')
+        new_feedback_text2 = data.get('input_feedback_text2')
+        new_feedback_comment = data.get('input_feedback_comment')
+        owninguser = Account.objects.get(email = email)
+        feedback_report = Feedback.objects.get(user_feedback = owninguser, id = feedback_id)
+        feedback_report.feedback_rating = new_feedback_rating
+        feedback_report.feedback_goal = new_feedback_goal
+        feedback_report.feedback_text = new_feedback_text
+        feedback_report.feedback_text2 = new_feedback_text2
+        feedback_report.feedback_comment = new_feedback_comment
+        feedback_report.save()
+
+        return JsonResponse({'isSuccessful':True},safe = False)
