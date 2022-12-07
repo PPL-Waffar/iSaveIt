@@ -6,6 +6,7 @@ testemail = 'test@test.com'
 content_type = 'application/json'
 add_feedback_url = '/feedbackreport/add-feedback-report/'
 delete_feedback_url = '/feedbackreport/delete-feedback-report/'
+edit_feedback_url = '/feedbackreport/edit-feedback-report/'
 payment_error_title = 'payment error'
 payment_error_content = 'payment feature is not working'
 
@@ -126,3 +127,30 @@ class FeedbackReportTest(TestCase):
         })
 
         self.assertNotEqual(json.loads(response.content)[0]['feedback_goal'], 'home page error')
+    
+    def test_editfeedback(self):
+        self.setup_account()
+        session = self.client.session
+        session['_auth_user_id'] = testemail
+        session.save()
+
+        self.client.post(add_feedback_url,json.dumps({
+            'session_id' : session.session_key,
+            'input_feedback_rating' : 5,
+            'input_feedback_goal' : 'i hope i will save money',
+            'input_feedback_text' : 'less impulsive expenses',
+            'input_feedback_text2' : 'very helpful and fun to do',
+            'input_feedback_comment' : 'i think the application has quite good features',
+
+        }),content_type=content_type)
+
+        response = self.client.post(edit_feedback_url,json.dumps({
+            'session_id': session.session_key,
+            'id': 1,
+            'input_feedback_rating' : 2,
+            'input_feedback_goal' : 'i hope i will save money more',
+            'input_feedback_text' : 'not less impulsive',
+            'input_feedback_text2' : 'not very helpful',
+            'input_feedback_comment' : 'not quite good features',
+        }),content_type=content_type)
+        
