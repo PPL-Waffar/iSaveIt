@@ -3,12 +3,12 @@ from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from newsletter.models import Newsletter
 from newsletter.views import add_newsletter, view_detail_newsletter
-from django.urls import reverse
+
+image_name = 'ui_logo.jpg'
+image_path = 'newsletter/pictures/ui_logo.jpg'
+
 
 class AddNewsletterTest(TestCase):
-    def create_newsletter(self):
-        file = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
-        return Newsletter.objects.create(newsletter_text='test', newsletter_picture=file, newsletter_category='tips')   
     def test_add_newsletter(self):
         test_image = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
         response = add_newsletter((self.client.post(
