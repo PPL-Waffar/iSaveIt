@@ -54,12 +54,3 @@ class AddNewsletterTest(TestCase):
         response = view_detail_newsletter((self.client.get(
             '/view-detail-newsletter/id=' + str(newsletter_id) + '/')).wsgi_request, newsletter_id)
         self.assertNotEqual(response.status_code, 404)
-        
-    def test_delete_newsletter(self):
-        newsletter = self.create_newsletter()
-        response = self.client.post(reverse('delete_newsletter', kwargs={'id': newsletter.id}))
-        self.assertRedirects(response, '/newsletter/list/', status_code=302)
-    
-    def test_wrong_delete(self):
-        response = self.client.post(reverse('delete_newsletter', kwargs={'id': 1}))
-        self.assertNotEqual(response.status_code, 200)
