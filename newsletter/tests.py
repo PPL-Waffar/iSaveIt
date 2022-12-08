@@ -1,6 +1,7 @@
 
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
+from newsletter.models import Newsletter
 from newsletter.views import add_newsletter
 from django.urls import reverse
 
