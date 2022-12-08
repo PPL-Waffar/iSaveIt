@@ -53,6 +53,7 @@ class AddNewsletterTest(TestCase):
             'newsletter_category': 'tips',
         })
         self.assertRedirects(response, '/newsletter/list/', status_code=302)
+        
     def test_wrong_update_newsletter(self):
         newsletter = self.create_newsletter()
         file = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
