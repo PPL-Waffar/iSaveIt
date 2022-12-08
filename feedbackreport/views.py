@@ -6,6 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
+import datetime
+import dateutil.parser
+
 
 @require_http_methods(["POST"])
 @csrf_exempt
@@ -22,8 +25,9 @@ def add_feedback_report(request):
         feedback_text = data.get('input_feedback_text')
         feedback_text2 = data.get('input_feedback_text2')
         feedback_comment = data.get('input_feedback_comment')
+        feedback_date = data.get('input_feedback_date')
         user_feedback = Account.objects.get(email=email)
-        feedback = Feedback(user_feedback=user_feedback, feedback_rating=feedback_rating, feedback_goal=feedback_goal, feedback_text=feedback_text, feedback_text2=feedback_text2, feedback_comment=feedback_comment)
+        feedback = Feedback(user_feedback=user_feedback, feedback_rating=feedback_rating, feedback_goal=feedback_goal, feedback_text=feedback_text, feedback_text2=feedback_text2, feedback_comment=feedback_comment, feedback_date=feedback_date)
         feedback.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 
@@ -55,12 +59,22 @@ def view_feedback_report(request):
         owninguser = Account.objects.get(email = email)
         feedback_report = Feedback.objects.filter(user_feedback = owninguser)
         feedback_report_list = []
+
         for feedback in feedback_report:
+            time = dateutil.parser.parse(str(feedback.feedback_date))
+            time_between_insertion = datetime.datetime.today() - time
+            if  time_between_insertion.days>90:
+                feedback_check = "More than 90 days"
+
+            else:
+                feedback_check = "Below 90 days"
             feedback_report_list.append({
                 'feedback_rating': feedback.feedback_rating,
                 'feedback_goal': feedback.feedback_goal,
                 'feedback_text': feedback.feedback_text,
                 'feedback_text2': feedback.feedback_text2,
                 'feedback_comment': feedback.feedback_comment,
+                'feedback_date': feedback.feedback_date,
+                'feedback_check': feedback_check
             })
         return JsonResponse(feedback_report_list,safe = False)

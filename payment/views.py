@@ -80,7 +80,6 @@ def flutter_update_payment(request):
         payment = Payment.objects.get(user_payment = owninguser, pay_name = pay_name)
         payment.pay_amount = new_pay_amount
         payment.pay_date = new_pay_date
-        payment.pay_categories = new_pay_categories
         payment.payment_choice = new_payment_choice
         payment.save()
         return JsonResponse({'isSuccessful':True},safe = False)
