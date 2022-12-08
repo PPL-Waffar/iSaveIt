@@ -2,6 +2,7 @@ from django.shortcuts import render
 from newsletter.forms import NewsletterForm
 from django.views.decorators.http import require_http_methods
 from newsletter.models import Newsletter
+from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import HttpResponse, JsonResponse
 
@@ -30,6 +31,8 @@ def view_newsletter_list(request):
     data = json.dumps(newsletter_list)
     return HttpResponse(data, content_type='application/json')
 
+@require_http_methods(["POST"])
+@csrf_exempt
 def delete_newsletter(request,id):
     context ={}
  
@@ -49,7 +52,8 @@ def delete_newsletter(request,id):
 def newsletterhtmk(request):
     obj=Newsletter.objects.all()
     return render(request,'list.html',{"obj":obj})
-
+@require_http_methods(["POST"])
+@csrf_exempt
 def update_newsletter(request,id):
     if request.method == 'POST':
         obj = get_object_or_404(Newsletter, id = id)
