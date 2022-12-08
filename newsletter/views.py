@@ -54,15 +54,16 @@ def newsletterhtmk(request):
     obj=Newsletter.objects.all()
     return render(request,'list.html',{"obj":obj})
 
-def edit_newsletter(request):
+def update_newsletter(request,id):
     if request.method == 'POST':
-        context = {}
-        context['form'] = NewsletterForm(request.POST, request.FILES)
-        if context['form'].is_valid():
-            context['form'].save()
-            context['form'] = NewsletterForm()
-            return render(request, 'newsletter.html', context)
+        obj = get_object_or_404(Newsletter, id = id)
+        form = NewsletterForm(request.POST, request.FILES, instance = obj)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("list/")
     else:
-        context = {}
-        context['form'] = NewsletterForm()
-        return render(request, 'newsletter.html', context)
+        obj = get_object_or_404(Newsletter, id = id)
+        form = NewsletterForm(instance = obj)
+        return render(request, 'edit_newsletter.html', {'form':form})
+
+
