@@ -1,9 +1,10 @@
 from django.urls import path
 
-from newsletter.views import add_newsletter, view_newsletter_list,delete_newsletter,newsletterhtmk
+from newsletter.views import add_newsletter, view_newsletter_list,delete_newsletter,newsletterhtmk, update_newsletter
 urlpatterns = [
-     path('add-newsletter/', add_newsletter)
+     path('add-newsletter/', add_newsletter),
      path('view-newsletter-list/', view_newsletter_list),
-    path('<int:id>', delete_newsletter, name = 'delete_newsletter'),
+    path('delete<int:id>', delete_newsletter, name = 'delete_newsletter'),
      path('list/', newsletterhtmk),
+     path('<int:id>', update_newsletter, name = 'update_newsletter'),
 ]
