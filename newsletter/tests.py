@@ -7,6 +7,16 @@ from django.urls import reverse
 class AddNewsletterTest(TestCase):
     def create_newsletter(self):
         file = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
+        response = self.client.post('newsletter/add-newsletter/', {
+            'newsletter_text': 'test',
+            'newsletter_picture': file,
+            'newsletter_category': 'tips',
+        })
+        
+
+    def test_get_list_newsletter(self):
+        
+        new_picture = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
         return Newsletter.objects.create(newsletter_text='test', newsletter_picture=file, newsletter_category='tips')   
     def test_add_newsletter(self):
         test_image = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
@@ -30,7 +40,7 @@ class AddNewsletterTest(TestCase):
         file = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
         response = self.client.post('newsletter/add-newsletter/', {
             'newsletter_text': 'test',
-            'newsletter_picture': file,
+            'newsletter_picture': new_picture,
             'newsletter_category': 'tips',
         })
         

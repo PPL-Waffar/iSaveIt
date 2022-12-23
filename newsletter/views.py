@@ -49,4 +49,3 @@ def delete_newsletter(request,id):
 def newsletterhtmk(request):
     obj=Newsletter.objects.all()
     return render(request,'list.html',{"obj":obj})
-
