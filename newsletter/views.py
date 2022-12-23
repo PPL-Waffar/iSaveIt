@@ -33,3 +33,25 @@ def view_detail_newsletter(request, id):
         })
         return JsonResponse({'isSuccessful':True, 'newsletter': newsletter_list},safe = False)
         
+    data = json.dumps(newsletter_list)
+    return HttpResponse(data, content_type='application/json')
+
+def delete_newsletter(request,id):
+    context ={}
+ 
+    # fetch the object related to passed id
+    obj = get_object_or_404(Newsletter, id = id)
+ 
+ 
+    if request.method =="POST":
+        # delete object
+        obj.delete()
+        # after deleting redirect to
+        # home page
+        return HttpResponseRedirect("list/")
+    
+    return render(request, "delete_view.html", context)
+
+def newsletterhtmk(request):
+    obj=Newsletter.objects.all()
+    return render(request,'list.html',{"obj":obj})

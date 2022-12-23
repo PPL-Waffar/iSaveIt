@@ -11,6 +11,19 @@ add_newsletter_url = '/add-newsletter/'
 
 
 class AddNewsletterTest(TestCase):
+    def create_newsletter(self):
+        file = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
+        response = self.client.post('newsletter/add-newsletter/', {
+            'newsletter_text': 'test',
+            'newsletter_picture': file,
+            'newsletter_category': 'tips',
+        })
+        
+
+    def test_get_list_newsletter(self):
+        
+        new_picture = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
+        return Newsletter.objects.create(newsletter_text='test', newsletter_picture=file, newsletter_category='tips')   
     def test_add_newsletter(self):
         test_image = SimpleUploadedFile(name=image_name, content=open(image_path, 'rb').read(), content_type=image_type)
         response = add_newsletter((self.client.post(
@@ -43,6 +56,19 @@ class AddNewsletterTest(TestCase):
         response = view_detail_newsletter((self.client.get(
             '/view-detail-newsletter/id=' + str(newsletter_id) + '/')).wsgi_request, newsletter_id)
         self.assertEqual(response.status_code, 200)
+
+        file = SimpleUploadedFile(name='ui_logo.jpg', content=open('newsletter/pictures/ui_logo.jpg', 'rb').read(), content_type='image/jpeg')
+        response = self.client.post('newsletter/add-newsletter/', {
+            'newsletter_text': 'test',
+            'newsletter_picture': new_picture,
+            'newsletter_category': 'tips',
+        })
+        
+    def test_delete_newsletter(self):
+        newsletter = self.create_newsletter()
+        response = self.client.post(reverse('delete_newsletter', kwargs={'id': newsletter.id}))
+        self.assertRedirects(response, '/newsletter/list/', status_code=302)
+
     
     def test_view_detail_newsletter_negative(self):
         test_image = SimpleUploadedFile(name=image_name, content=open(image_path, 'rb').read(), content_type=image_type)
