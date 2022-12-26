@@ -66,4 +66,3 @@ def flutter_edit_user(request):
         user.name = cleaned_data.get('name')
         user.save()
         return JsonResponse({"session-id": request.session.session_key, "is_staff": False, "role_users": True, "email": user.email, "name": user.name})
-

@@ -6,6 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
+import datetime
+
+
 
 @require_http_methods(["POST"])
 @csrf_exempt
@@ -23,7 +26,7 @@ def add_feedback_report(request):
         feedback_text2 = data.get('feedback4')
         feedback_comment = data.get('feedback5')
         user_feedback = Account.objects.get(email=email)
-        feedback = Feedback(user_feedback=user_feedback, feedback_rating=feedback_rating, feedback_goal=feedback_goal, feedback_text=feedback_text, feedback_text2=feedback_text2, feedback_comment=feedback_comment)
+        feedback = Feedback(user_feedback=user_feedback, feedback_rating=feedback_rating, feedback_goal=feedback_goal, feedback_text=feedback_text, feedback_text2=feedback_text2, feedback_comment=feedback_comment, feedback_date=feedback_date)
         feedback.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 

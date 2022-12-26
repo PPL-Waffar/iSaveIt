@@ -51,11 +51,12 @@ def input_transaction(request):
 
 @csrf_exempt
 def get_transaction(request):
-        session_id = request.GET.get('session_id')
-        engine = import_module(settings.SESSION_ENGINE)
-        sessionstore = engine.SessionStore
-        session = sessionstore(session_id)
-        email = session.get('_auth_user_id')
+    session_id = request.GET.get('session_id')
+    engine = import_module(settings.SESSION_ENGINE)
+    sessionstore = engine.SessionStore
+    session = sessionstore(session_id)
+    email = session.get('_auth_user_id')
+    try:
         owninguser = Account.objects.get(email = email)
         alltransaction = Transaction.objects.filter(user_transaction = owninguser)
         transaction_list = []
@@ -70,6 +71,37 @@ def get_transaction(request):
             })
         data = json.dumps(transaction_list)
         return HttpResponse(data, content_type='application/json')
+    except Account.DoesNotExist or Transaction.DoesNotExist:
+        return JsonResponse({'isSuccessful':False},status=404,safe = False)
+
+@csrf_exempt
+def delete_transaction(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+            session_id = data.get('session_id')
+            engine = import_module(settings.SESSION_ENGINE)
+            sessionstore = engine.SessionStore
+            session = sessionstore(session_id)
+            email = session.get('_auth_user_id')
+            owninguser = Account.objects.get(email = email)
+            transaction_payment_name = data.get('transaction_payment_name')
+            transaction = Transaction.objects.get(user_transaction = owninguser, transaction_payment_name = transaction_payment_name)
+            transaction_pocket = data.get('input_transaction_pocket')
+            owning_pocket = Pocket.objects.get(pocket_name = transaction_pocket, user_pocket = owninguser)
+            if transaction.transaction_payment_type == 'Expense':
+                owning_pocket.pocket_budget += int(transaction.transaction_amount)
+                owning_pocket.save()
+            else:
+                owning_pocket.pocket_budget -= int(transaction.transaction_amount)
+                owning_pocket.save()
+            transaction.delete()
+            return JsonResponse({'isSuccessful':True},safe = False)
+        except Pocket.DoesNotExist or Account.DoesNotExist or Transaction.DoesNotExist:
+            return JsonResponse({'isSuccessful':False},status=404,safe = False)
+
+
+
 @csrf_exempt
 def view_all_transaction(request):
     session_id = request.GET.get('session_id')

@@ -55,7 +55,6 @@ def view_all_newsletter(request):
     data = json.dumps(newsletter_list)
     return HttpResponse(data, content_type='application/json')
 
-
 def delete_newsletter(request,id):
     context ={}
  
