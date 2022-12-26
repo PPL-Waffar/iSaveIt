@@ -61,7 +61,14 @@ def add_expense(request):
         expense_payment_choice = data.get('expense_payment_choice')
         expense_pocket = data.get('expense_pocket')
         pocket = Pocket.objects.get(pocket_name = expense_pocket)
+        if expense_type == 'Lend Money':
+            pocket.pocket_budget -= int(expense_amount)
+            pocket.save()
+        else:
+            pocket.pocket_budget += int(expense_amount)
+            pocket.save()
         expense = Expense(user_expense = owninguser, expense_name = expense_name, expense_amount = expense_amount, expense_date = expense_date, expense_type = expense_type, expense_person = expense_person, expense_payment_choice = expense_payment_choice, expense_pocket = pocket)
+        
         expense.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 

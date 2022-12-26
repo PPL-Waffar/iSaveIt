@@ -26,10 +26,10 @@ def add_feedback_report(request):
         feedback_text2 = data.get('feedback4')
         feedback_comment = data.get('feedback5')
         user_feedback = Account.objects.get(email=email)
-        feedback = Feedback(user_feedback=user_feedback, feedback_rating=feedback_rating, feedback_goal=feedback_goal, feedback_text=feedback_text, feedback_text2=feedback_text2, feedback_comment=feedback_comment, feedback_date=feedback_date)
+        feedback = Feedback(user_feedback=user_feedback, feedback_rating=feedback_rating, feedback_goal=feedback_goal, feedback_text=feedback_text, feedback_text2=feedback_text2, feedback_comment=feedback_comment)
         feedback.save()
     return JsonResponse({'isSuccessful':True},safe = False)
-
+    
 @require_http_methods(["DELETE"])
 @csrf_exempt
 def delete_feedback_report(request):

@@ -35,8 +35,12 @@ def flutter_add_payment(request):
         pay_categories = data.get('input_paycategories')
         payment = Pocket.objects.get(pocket_name=pay_categories)
         payment_choice = data.get('input_paymentchoice')
+        print(pay_date)
         owninguser = Account.objects.get(email = email)
         new_payment = Payment(user_payment = owninguser,pay_name = pay_name, pay_date = pay_date, pay_amount= pay_amount, pay_categories=payment, payment_choice =payment_choice)
+        pocket = Pocket.objects.get(user_pocket = owninguser, pocket_name = pay_categories)
+        pocket.pocket_budget = pocket.pocket_budget - int(pay_amount)
+        pocket.save()
         new_payment.save()
     return JsonResponse({'isSuccessful':True},safe = False)
 
