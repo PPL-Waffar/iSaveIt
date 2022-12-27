@@ -36,10 +36,9 @@ jobs:
       HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME_STAGING }}
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby 2.7
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.7
+    - name: Setup Ruby, JRuby and TruffleRuby
+      uses: ruby/setup-ruby@v1.127.0
+
     - name: Install dpl
       run: gem install dpl
     - name: Install Heroku CLI

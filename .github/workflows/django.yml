@@ -67,10 +67,10 @@ jobs:
       HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby 2.7
-      uses: actions/setup-ruby@v1
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: '3.0' # Not needed with a .ruby-version file
     - name: Install dpl
       run: gem install dpl
     - name: Install Heroku CLI
