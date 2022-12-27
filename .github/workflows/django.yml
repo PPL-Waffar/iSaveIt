@@ -25,6 +25,7 @@ jobs:
       run: |
         python manage.py test
   
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
@@ -54,7 +55,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup Ruby
-    - uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.0' # Not needed with a .ruby-version file
     - name: Install dpl
