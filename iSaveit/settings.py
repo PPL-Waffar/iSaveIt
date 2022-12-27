@@ -68,7 +68,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'iSaveit.urls'
 
-ALLOWED_HOSTS = ['isaveit-staging.herokuapp.com','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['isaveit-staging.herokuapp.com','localhost','127.0.0.1','isaveit-backend.herokuapp.com']
 CORS_ALLOWED_ORIGINS = [
     "https://example.com",
     "https://sub.example.com",
