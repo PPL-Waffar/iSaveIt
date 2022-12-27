@@ -98,7 +98,10 @@ def flutter_delete_payment(request):
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
-        pay_name = request.GET.get('input_payment')
+        if request.GET.get('input_payname'):
+            pay_name = request.GET.get('input_payname')
+        else:
+            pay_name = data.get('input_payname')
         owninguser = Account.objects.get(email = email)
         payment = Payment.objects.get(user_payment = owninguser, pay_name = pay_name)
         payment.delete()

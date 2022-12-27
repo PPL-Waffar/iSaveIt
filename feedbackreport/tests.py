@@ -25,11 +25,11 @@ class FeedbackReportTest(TestCase):
 
         response = self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_rating' : 5,
-            'input_feedback_goal' : 'i hope i will save money',
-            'input_feedback_text' : 'less impulsive expenses',
-            'input_feedback_text2' : 'very helpful and fun to do',
-            'input_feedback_comment' : 'i think the application has quite good features',
+            'feedback1': 5,
+            'feedback2' : 'i hope i will save money',
+            'feedback3' : 'less impulsive expenses',
+            'feedback4' : 'very helpful and fun to do',
+            'feedback5' : 'i think the application has quite good features',
 
         }),content_type=content_type)
 
@@ -42,19 +42,19 @@ class FeedbackReportTest(TestCase):
         session['_auth_user_id'] = testemail
         session.save()
 
-        self.client.post(add_feedback_url,json.dumps({
+        response = self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_rating' : 5,
-            'input_feedback_goal' : 'i hope i will save money',
-            'input_feedback_text' : 'less impulsive expenses',
-            'input_feedback_text2' : 'very helpful and fun to do',
-            'input_feedback_comment' : 'i think the application has quite good features',
+            'feedback1': 5,
+            'feedback2' : 'i hope i will save money',
+            'feedback3' : 'less impulsive expenses',
+            'feedback4' : 'very helpful and fun to do',
+            'feedback5' : 'i think the application has quite good features',
 
         }),content_type=content_type)
 
         response = self.client.delete(delete_feedback_url,json.dumps({
             'session_id': session.session_key,
-            'id': 1,
+            'input_id': 1,
         }),content_type=content_type)
 
         self.assertEqual(response.status_code, 200)
@@ -67,37 +67,36 @@ class FeedbackReportTest(TestCase):
 
         self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_rating' : 5,
-            'input_feedback_goal' : 'i hope i will save money',
-            'input_feedback_text' : 'less impulsive expenses',
-            'input_feedback_text2' : 'very helpful and fun to do',
-            'input_feedback_comment' : 'i think the application has quite good features',
+            'feedback1': 5,
+            'feedback2' : 'i hope i will save money',
+            'feedback3' : 'less impulsive expenses',
+            'feedback4' : 'very helpful and fun to do',
+            'feedback5' : 'i think the application has quite good features',
+
+        }),content_type=content_type)
+        self.client.post(add_feedback_url,json.dumps({
+            'session_id' : session.session_key,
+            'feedback1': 3,
+            'feedback2' : 'i hope i will save money2',
+            'feedback3' : 'less impulsive expense2s',
+            'feedback4' : 'very helpful and fun to do2',
+            'feedback5' : 'i think the application has quite good features2',
 
         }),content_type=content_type)
 
         self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_rating' : 9,
-            'input_feedback_goal' : 'i hope i will save money2',
-            'input_feedback_text' : 'less impulsive expenses2',
-            'input_feedback_text2' : 'very helpful and fun to do2',
-            'input_feedback_comment' : 'i think the application has quite good features2',
-
-        }),content_type=content_type)
-
-        self.client.post(add_feedback_url,json.dumps({
-            'session_id' : session.session_key,
-            'input_feedback_rating' : 8,
-            'input_feedback_goal' : 'i hope i will save money3',
-            'input_feedback_text' : 'less impulsive expenses3',
-            'input_feedback_text2' : 'very helpful and fun to do3',
-            'input_feedback_comment' : 'i think the application has quite good features3',
+            'feedback1': 4,
+            'feedback2' : 'i hope i will save money4',
+            'feedback3' : 'less impulsive expenses4',
+            'feedback4' : 'very helpful and fun to 4do',
+            'feedback5' : 'i think the application has4 quite good features',
 
         }),content_type=content_type)
 
         self.client.delete('/feedbackreport/delete-feedback-report/',json.dumps({
             'session_id': session.session_key,
-            'id': 1,
+            'input_id': 1,
         }),content_type=content_type)
 
         response = self.client.get('/feedbackreport/view-feedback-report/',{
@@ -114,12 +113,13 @@ class FeedbackReportTest(TestCase):
 
         self.client.post(add_feedback_url,json.dumps({
             'session_id' : session.session_key,
-            'input_feedback_rating' : 5,
-            'input_feedback_goal' : 'i hope i will save money',
-            'input_feedback_text' : 'less impulsive expenses',
-            'input_feedback_text2' : 'very helpful and fun to do',
-            'input_feedback_comment' : 'i think the application has quite good features',
-            }),content_type=content_type)
+            'feedback1': 5,
+            'feedback2' : 'i hope i will save money',
+            'feedback3' : 'less impulsive expenses',
+            'feedback4' : 'very helpful and fun to do',
+            'feedback5' : 'i think the application has quite good features',
+
+        }),content_type=content_type)
 
         response = self.client.get('/feedbackreport/view-feedback-report/',{
             'session_id': session.session_key,

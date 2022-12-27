@@ -40,7 +40,10 @@ def delete_feedback_report(request):
         sessionstore = engine.SessionStore
         session = sessionstore(session_id)
         email = session.get('_auth_user_id')
-        feedback_id = request.GET.get('input_id')
+        if request.GET.get('input_id') is not None:
+            feedback_id = request.GET.get('input_id')
+        else:
+            feedback_id = data.get('input_id')
         owninguser = Account.objects.get(email = email)
         feedback_report = Feedback.objects.get(user_feedback = owninguser, customer_ID = feedback_id)
         feedback_report.delete()

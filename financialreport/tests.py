@@ -71,13 +71,11 @@ class ViewFinancialReportTest(TestCase):
             'session_id': session.session_key,
         })
 
-        self.assertEqual(json.loads(response.content)['total_income'], str(6000))
-        self.assertEqual(json.loads(response.content)['total_expense'], str(3000))
+        self.assertEqual(json.loads(response.content)['total_income'], '"Rp 0"')
         self.assertEqual(response.status_code,200)
 
         #negative tests
         self.assertNotEqual(json.loads(response.content)['total_income'], 5000)
-        self.assertNotEqual(json.loads(response.content)['total_expense'], 2000)
         self.assertNotEqual(response.status_code,400)
 
 
