@@ -184,3 +184,5 @@ python manage.py runserver
 9. Check the local database
 
 open `127.0.0:8000/admin`
+
+
